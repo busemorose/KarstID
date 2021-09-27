@@ -145,7 +145,7 @@ ui <- fluidPage(
     ),
     tags$script(
       HTML("var header = $('.navbar > .container-fluid');
-                              header.append('<div style=\"float:right; padding-top: 8px\"><button id=\"signin\" type=\"button\" class=\"btn action-button\">About</button></div>')")
+                              header.append('<div style=\"float:right; padding-top: 8px\"><button id=\"about\" type=\"button\" class=\"btn action-button\">About</button></div>')")
     )
   
   )
@@ -153,7 +153,7 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   
-  observeEvent(input$signin, {
+  observeEvent(input$about, {
     about_popup()
   })
   
