@@ -22,6 +22,9 @@ You can install KarstID from [GitHub](https://github.com/) with:
 devtools::install_github("busemorose/KarstID")
 ```
 
+Please consider that, somehow, the installation is easier using the last
+version of R (`4.1.0` at the time of writing).
+
 ## Launch
 
 This is how you launch the app:
