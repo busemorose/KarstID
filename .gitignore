@@ -1,0 +1,16 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# Ignore doc
+2021.04.22_Logiciel_INSU.pdf
+/diagrams
+documentation.Rmd
+
+# Ignore data
+/input
+/data/classif_bdd.rda
+/data/classif_data_plot.rda
+/data/default_dataset.rda
+/data/m.rda
