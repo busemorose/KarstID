@@ -51,7 +51,26 @@ ui <- fluidPage(
           checkboxInput("header", "Header", value = TRUE),
           radioButtons("dec_mark", "Decimal mark", choices = dec_mark),
           radioButtons("delim", "Delimiter", choices = delim),
-          textInput("date_format", "Date format", value = date_format),
+          textInput("date_format", "Date format", value = date_format) %>% 
+            shinyhelper::helper(type = "inline",
+                                title = "Date Format",
+                                colour = "grey",
+                                content = c("<b>%d</b> - Day as a number (0-31)",
+                                            "<b>%m</b> - Month (00-12)",
+                                            "<b>%y</b> - 2-digit year",
+                                            "<b>%Y</b> - 4-digit year",
+                                            "<b>%H</b> - Decimal hour (24 hour)",
+                                            "<b>%M</b> - Decimal minute (0-59)",
+                                            "<b>%S</b> - Decimal second (0-59)",
+                                            "<b>%a</b> - Abbreviated weekday (e.g. Mon)",
+                                            "<b>%A</b> - Unabbreviated weekday (e.g. Monday)",
+                                            "<b>%b</b> - Abbreviated month (e.g. Jan)",
+                                            "<b>%B</b> - Abbreviated month (e.g. January)",
+                                            "<br>",
+                                            "Most common formats:",
+                                            "- Date: %Y-%m-%d",
+                                            "- Datetime: %Y-%m-%d %H:%M:%S"),
+                                size = "m"),
           numericInput("max_gap", "Max interpolation gap size", value = 5, min = 0, step = 1),
           checkboxInput("keep_na", "Keep NA values", value = TRUE),
           actionButton("load_import", "Load dataset"),
@@ -152,6 +171,8 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
+  
+  shinyhelper::observe_helpers(withMathJax = TRUE)
   
   observeEvent(input$about, {
     about_popup()

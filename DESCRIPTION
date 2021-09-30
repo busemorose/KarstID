@@ -36,7 +36,8 @@ Imports:
     waiter (>= 0.2.3),
     zoo (>= 1.3.0),
     magrittr,
-    shinyjs
+    shinyjs,
+    shinyhelper
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
