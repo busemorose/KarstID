@@ -227,6 +227,28 @@ server <- function(input, output, session) {
     df$df
     })
   
+  dt_stats <- reactive({
+    q <- df_interp()$discharge
+    dt <-  data.frame(Mean = mean(q, na.rm = TRUE),
+                      Min = min(q, na.rm = TRUE),
+                      Max = max(q, na.rm = TRUE),
+                      Sd = sd(q, na.rm = TRUE),
+                      Q10 = quantile(q, 0.1, na.rm = TRUE),
+                      Q90 = quantile(q, 0.9, na.rm = TRUE)) %>% 
+      dplyr::mutate(CV = (Sd / Mean) * 100,
+                    SVC = Q90 / Q10) %>% 
+      dplyr::mutate(dplyr::across(dplyr::everything(), round, 2)) %>% 
+      # add unit with HTML and escape = FALSE
+      dplyr::rename("Mean<br>(m<sup>3</sup>.s<sup>-1</sup>)" = Mean,
+                    "Min<br>(m<sup>3</sup>.s<sup>-1</sup>)" = Min,
+                    "Max<br>(m<sup>3</sup>.s<sup>-1</sup>)" = Max,
+                    "SD<br>(m<sup>3</sup>.s<sup>-1</sup>)" = Sd,
+                    "Q10<br>(m<sup>3</sup>.s<sup>-1</sup>)" = Q10,
+                    "Q90<br>(m<sup>3</sup>.s<sup>-1</sup>)" = Q90,
+                    "CV<br>(%)" = CV) %>% 
+      dplyr::mutate(`Number of NAs` = length(which(is.na(q))))
+  })
+  
   observeEvent(input$load_default, {
     df$df <- default_dataset
     
@@ -292,30 +314,11 @@ server <- function(input, output, session) {
   )
   
   output$stats_indicator <- DT::renderDT({
-    q <- df_interp()$discharge
-    dt <-  data.frame(Mean = mean(q, na.rm = TRUE),
-                      Min = min(q, na.rm = TRUE),
-                      Max = max(q, na.rm = TRUE),
-                      Sd = sd(q, na.rm = TRUE),
-                      Q10 = quantile(q, 0.1, na.rm = TRUE),
-                      Q90 = quantile(q, 0.9, na.rm = TRUE)) %>% 
-      dplyr::mutate(CV = (Sd / Mean) * 100,
-             SVC = Q90 / Q10) %>% 
-      dplyr::mutate(dplyr::across(dplyr::everything(), round, 2)) %>% 
-      # add unit with HTML and escape = FALSE
-      dplyr::rename("Mean<br>(m<sup>3</sup>.s<sup>-1</sup>)" = Mean,
-                    "Min<br>(m<sup>3</sup>.s<sup>-1</sup>)" = Min,
-                    "Max<br>(m<sup>3</sup>.s<sup>-1</sup>)" = Max,
-                    "SD<br>(m<sup>3</sup>.s<sup>-1</sup>)" = Sd,
-                    "Q10<br>(m<sup>3</sup>.s<sup>-1</sup>)" = Q10,
-                    "Q90<br>(m<sup>3</sup>.s<sup>-1</sup>)" = Q90,
-                    "CV<br>(%)" = CV) %>% 
-      dplyr::mutate(`Number of NAs` = length(which(is.na(q))))
-    DT::datatable(dt,
-                 rownames = FALSE,
-                 selection = "none",
-                 escape = FALSE,
-                 options = list(dom = "t"))
+    DT::datatable(dt_stats(),
+                  rownames = FALSE,
+                  selection = "none",
+                  escape = FALSE,
+                  options = list(dom = "t"))
   })
   
   output$download_dataset <- downloadHandler(
