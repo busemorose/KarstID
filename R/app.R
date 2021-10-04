@@ -43,14 +43,34 @@ ui <- fluidPage(
         sidebarPanel(
           
           fileInput("import", "Import dataset", accept = file_format),
-          textInput("name", "Name"),
-          numericInput("skip_row", "Skip row", value = 0, min = 0, step = 1),
-          numericInput("sheet", "Sheet", value = 1, min = 1, step = 1),
-          selectInput("time_step", "Time step", choices = day_hour),
-          shinyjs::hidden(checkboxInput("data_mean", "Compute and use daily mean", value = FALSE)),
+          
+          fluidRow(
+            
+            column(6,
+                   textInput("name", "Name")),
+            column(6,
+                   selectInput("time_step", "Time step", choices = day_hour))
+          ),
+          
+          fluidRow(
+            
+            column(6,
+                   numericInput("skip_row", "Skip row", value = 0, min = 0, step = 1)),
+            column(6,
+                   numericInput("sheet", "Sheet", value = 1, min = 1, step = 1))
+          ),
+          
+          
+          fluidRow(
+            
+            column(6,
+                   radioButtons("dec_mark", "Decimal mark", choices = dec_mark)),
+            column(6,
+                   radioButtons("delim", "Delimiter", choices = delim))
+          ),
+          
           checkboxInput("header", "Header", value = TRUE),
-          radioButtons("dec_mark", "Decimal mark", choices = dec_mark),
-          radioButtons("delim", "Delimiter", choices = delim),
+          shinyjs::hidden(checkboxInput("data_mean", "Compute and use daily mean", value = FALSE)),
           textInput("date_format", "Date format", value = date_format) %>% 
             shinyhelper::helper(type = "inline",
                                 title = "Date Format",
@@ -83,6 +103,7 @@ ui <- fluidPage(
           
           plotOutput("import_plot"),
           DT::DTOutput("stats_indicator"),
+          br(),
           shinyjs::hidden(downloadButton("dl_stats", "Download results"))
         )
       )
@@ -340,7 +361,12 @@ server <- function(input, output, session) {
   
   output$import_plot <- renderPlot(
     ggplot(df_interp(), aes(date, discharge)) +
-      geom_line()
+      geom_line() +
+      theme_bw() +
+      xlab("Date") +
+      ylab(expression("Discharge" ~(m^3~.s^-1))) +
+      theme(axis.title = element_text(size = 16, color = "#2d2d2d"),
+            axis.text = element_text(size = 14, color = "#2d2d2d"))
   )
   
   output$stats_indicator <- DT::renderDT({
@@ -1025,8 +1051,8 @@ server <- function(input, output, session) {
   
   outputOptions(output, "ui_rc_slider", suspendWhenHidden = FALSE, priority = 10)
   outputOptions(output, "dt_recap", suspendWhenHidden = FALSE, priority = 5)
-  outputOptions(output, "scatter_classif_plot", suspendWhenHidden = FALSE, priority = 2)
-  outputOptions(output, "dt_classif", suspendWhenHidden = FALSE, priority = 1)
+  #outputOptions(output, "scatter_classif_plot", suspendWhenHidden = FALSE, priority = 2)
+  #outputOptions(output, "dt_classif", suspendWhenHidden = FALSE, priority = 1)
   
 }
 
