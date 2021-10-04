@@ -80,13 +80,37 @@ model_mangin <- function(recession_dataset, breakpoint, vtransit, timestep = 1) 
 plot_rc_model <- function(recession, rc_model, breakpoint) {
   
   if (breakpoint < 2 | !is.numeric(breakpoint) | breakpoint >= max_bp_value(recession$value)) {
-    ggplot(recession, aes(t, value)) +
-      geom_line()
+    ggplot(recession, aes(t, value, color = variable)) +
+      geom_line(size = 0.8) +
+      theme_bw() +
+      xlab("Date") +
+      ylab(expression("Discharge" ~(m^3~.s^-1))) +
+      scale_color_manual("",
+                         values = c("discharge" = "black",
+                                    "sim_discharge" = "orangered3"),
+                         label = c("Observed discharge", "Simulated discharge")) +
+      theme(axis.title = element_text(size = 16, color = "#2d2d2d"),
+            axis.text = element_text(size = 14, color = "#2d2d2d"),
+            legend.text = element_text(size = 14),
+            legend.position = "top") + 
+      guides(color = guide_legend(override.aes = list(size = 2)))
   } else {
     model <- melt(rc_model, id.vars = "t", measure.vars = c("discharge", "sim_discharge"))
     ggplot(model, aes(t, value, color = variable)) +
-      geom_line() +
-      geom_vline(xintercept = breakpoint)
+      geom_line(size = 0.8) +
+      geom_vline(xintercept = breakpoint) +
+      theme_bw() +
+      xlab("Date") +
+      ylab(expression("Discharge" ~(m^3~.s^-1))) +
+      scale_color_manual("",
+                         values = c("discharge" = "black",
+                                    "sim_discharge" = "orangered3"),
+                         label = c("Observed discharge", "Simulated discharge")) +
+      theme(axis.title = element_text(size = 16, color = "#2d2d2d"),
+            axis.text = element_text(size = 14, color = "#2d2d2d"),
+            legend.text = element_text(size = 14),
+            legend.position = "top") + 
+      guides(color = guide_legend(override.aes = list(size = 2)))
   }
 }
 

@@ -58,11 +58,21 @@ acspf <- function(discharge, max_lag = 125, timestep = 1) {
 plot_acf <- function(k, rk) {
   x <- data.frame(k = k, rk = rk)
   ggplot(x, aes(k, rk)) +
-    geom_line()
+    geom_line(size = 0.8) +
+    theme_bw() +
+    xlab("k (days)") +
+    ylab(expression(r[k])) +
+    theme(axis.title = element_text(size = 16, color = "#2d2d2d"),
+          axis.text = element_text(size = 14, color = "#2d2d2d"))
 }
 
 plot_spf <- function(f, sf) {
   x <- data.frame(f = f, sf = sf)
   ggplot(x, aes(f, sf)) +
-    geom_line()
+    geom_line(size = 0.8) +
+    theme_bw() +
+    xlab(expression("f" ~(days^-1))) +
+    ylab(expression(s[f])) +
+    theme(axis.title = element_text(size = 16, color = "#2d2d2d"),
+          axis.text = element_text(size = 14, color = "#2d2d2d"))
 }

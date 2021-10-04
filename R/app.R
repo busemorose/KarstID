@@ -116,24 +116,38 @@ ui <- fluidPage(
         
         column(8,
                plotOutput("rc_plot", brush = "rc_brush"),
-               uiOutput("ui_rc_slider"),
-               actionButton("zoom_rc", "Zoom"),
-               actionButton("reset_rc", "Reset"),
-               actionButton("add_rc", "Add"),
-               actionButton("delete_rc", "Delete"),
-               shinyjs::hidden(downloadButton("dl_rc", "Download selected recession")),
-               shinyjs::hidden(downloadButton("dl_rt", "Download table")),
-               shinyjs::hidden(downloadButton("dl_hydrofile", "Save KarstID recession workspace")),
-               fileInput("ul_rc", "Upload KarstID recession workspace", accept = file_format),
+               
+               fluidRow(
+                 
+                 column(4,
+                        align = "center",
+                        uiOutput("ui_rc_slider"),
+                        fluidRow(actionButton("zoom_rc", "Zoom"),
+                                 actionButton("reset_rc", "Reset"),
+                                 actionButton("add_rc", "Add"),
+                                 actionButton("delete_rc", "Delete"))),
+                 column(4,
+                        align = "center",
+                        br(), br(),
+                        shinyjs::hidden(downloadButton("dl_rc", "Download selected recession")),
+                        br(), br(),
+                        shinyjs::hidden(downloadButton("dl_rt", "Download table"))),
+                 column(4,
+                        fileInput("ul_rc", "Upload KarstID recession workspace", accept = file_format),
+                        shinyjs::hidden(downloadButton("dl_hydrofile", "Save KarstID recession workspace")))
+                 
+               ),
+               
+               br(), br(),
                DT::DTOutput("dt_recap")
         ),
         
         column(4,
                plotOutput("rc_model_plot", click = "rc_model_bp"),
                uiOutput("ui_napeak"),
-               uiOutput("ui_bp_value"),
-               actionButton("save_param", "Save indicators"),
-               actionButton("clear_param", "Clear selection"),
+               shinyjs::hidden(uiOutput("ui_bp_value")),
+               shinyjs::hidden(actionButton("save_param", "Save indicators")),
+               shinyjs::hidden(actionButton("clear_param", "Clear selection")),
                br(), br(),
                verbatimTextOutput("model_perf")
         )
@@ -145,8 +159,21 @@ ui <- fluidPage(
       
       column(6, plotOutput("acf_plot")),
       column(6, plotOutput("spf_plot")),
-      uiOutput("ui_acspf_slider"),
-      shinyjs::hidden(downloadButton("dl_acspf", "Download results"))
+      
+      fluidRow(
+        
+        column(4,
+               uiOutput("ui_acspf_slider")),
+        
+        column(4,
+               br(),
+               verbatimTextOutput("display_acspf")),
+        
+        column(3,
+               offset = 1,
+               br(), br(), 
+               shinyjs::hidden(downloadButton("dl_acspf", "Download results")))
+      )
     ),
     
     tabPanel(
@@ -154,37 +181,60 @@ ui <- fluidPage(
       
       column(6, 
              plotOutput("fdc_plot_normal"),
+             br(),
              shinyjs::hidden(downloadButton("dl_fdc_normal", "Download results"))),
       
       column(6, 
              plotOutput("fdc_plot_mangin"),
+             br(),
              shinyjs::hidden(downloadButton("dl_fdc_mangin", "Download results"))),
     ),
     
     tabPanel(
       "Classification",
       
-      column(5,
-             plotly::plotlyOutput("scatter_classif_plot", height = "600px"),
-             imageOutput("classif_img")
+      fluidRow(
+        
+        column(5,
+               
+               fluidRow(
+                 
+                 column(4,
+                        br(),
+                        tags$h3("Indicators:"),
+                        tagAppendAttributes(tags$h5(textOutput("indicator_txt")), # allow \n in text
+                                            style = "white-space:pre-wrap;")),
+                 
+                 column(8,
+                        br(),
+                        tags$h3("Distance to class:"),
+                        tagAppendAttributes(tags$h5(textOutput("class_distance")), # allow \n in text
+                                            style = "white-space:pre-wrap;"))
+                 
+                 ),
+               
+               fluidRow(br(),
+                        textOutput("classif_txt"))
+        ),
+        
+        column(7,
+               imageOutput("classif_img"))
+        
       ),
       
-      column(7,
-             DT::DTOutput("dt_classif"),
-             br(), br(),
-             textOutput("classif_txt"),
-             br(),
-             column(6,
-                    "Indicator values:",
-                    tagAppendAttributes(textOutput("indicator_txt"), # allow \n in text
-                                        style="white-space:pre-wrap;")
-             ),
-             column(6,
-                    "Distance to class:",
-                    tagAppendAttributes(textOutput("class_distance"), # allow \n in text
-                                        style="white-space:pre-wrap;")
-             ))
-    ),
+      hr(),
+      
+      fluidRow(
+        
+        column(5,
+               plotly::plotlyOutput("scatter_classif_plot", height = "600px")),
+        
+        column(7,
+               DT::DTOutput("dt_classif"))
+        
+        )
+      ),
+    
     tags$script(
       HTML("var header = $('.navbar > .container-fluid');
                               header.append('<div style=\"float:right; padding-top: 8px\"><button id=\"about\" type=\"button\" class=\"btn action-button\">About</button></div>')")
@@ -203,8 +253,20 @@ server <- function(input, output, session) {
     about_popup()
   })
   
-  # hide download button if no dataset
   
+  # last tab memory
+  
+  tab <- reactiveValues(last = "Data import",
+                        current = "Data import")
+  
+  observeEvent(input$menu, {
+    tab$last <- tab$current
+    tab$current <- input$menu
+  })
+  
+  # shinyjs --------------------------------------------------------------------   
+  
+  # hide download button if no dataset
   observe({
     if (!is.null(df$df)) {
       shinyjs::show("dl_stats")
@@ -224,16 +286,28 @@ server <- function(input, output, session) {
       shinyjs::hide("dl_fdc_mangin")
     }
   })
-  
-  # last tab memory
-  
-  tab <- reactiveValues(last = "Data import",
-                        current = "Data import")
-  
-  observeEvent(input$menu, {
-    tab$last <- tab$current
-    tab$current <- input$menu
+
+  # hide data mean if time step is daily
+  observeEvent(input$time_step, {
+    if (input$time_step == "Day")
+      shinyjs::hide("data_mean")
+    else
+      shinyjs::show("data_mean")
   })
+  
+  # hide recession model widget if no selection is selected
+  observeEvent(input$dt_recap_rows_selected,
+               ignoreNULL = FALSE, {
+                 if (!is.null(input$dt_recap_rows_selected)) {
+                   shinyjs::show("ui_bp_value")
+                   shinyjs::show("save_param")
+                   shinyjs::show("clear_param")
+                 } else {
+                   shinyjs::hide("ui_bp_value")
+                   shinyjs::hide("save_param")
+                   shinyjs::hide("clear_param")
+                 }
+               })
   
   # import data ----------------------------------------------------------------
   
@@ -352,16 +426,9 @@ server <- function(input, output, session) {
     df$df <- NULL # if date error reset table
   })
   
-  observeEvent(input$time_step, {
-    if (input$time_step == "Day")
-      shinyjs::hide("data_mean")
-    else
-      shinyjs::show("data_mean")
-  })
-  
   output$import_plot <- renderPlot(
     ggplot(df_interp(), aes(date, discharge)) +
-      geom_line() +
+      geom_line(size = 0.8) +
       theme_bw() +
       xlab("Date") +
       ylab(expression("Discharge" ~(m^3~.s^-1))) +
@@ -789,6 +856,11 @@ server <- function(input, output, session) {
     plot_spf(ascp_results()$f, ascp_results()$sf)
   }) 
   
+  output$display_acspf <- renderText({
+    paste0("Memory Effect = ", round(ascp_results()$mem_ef, 2), " days \n", 
+           "Regulation Time = ", round(ascp_results()$reg_time, 3), " days")
+  })
+  
   # analysis of classified discharges ---------------------------------------
   
   fdc_df_normal <- reactive({
@@ -972,9 +1044,9 @@ server <- function(input, output, session) {
   })
   
   output$indicator_txt <- renderText({
-    paste0("k max = ", kmax(), "\n", 
-           "alpha mean = ", alphamean(), "\n",
-           "IR = ", ir())
+    paste0("k max = ", round(kmax(), 3), "\n", 
+           "alpha mean = ", round(alphamean(), 3), "\n",
+           "IR = ", round(ir(), 3))
   })
   
   output$class_distance <- renderText({
@@ -991,7 +1063,7 @@ server <- function(input, output, session) {
     DT::datatable(dist_to_system(),
                   rownames = FALSE,
                   escape = FALSE,
-                  options = list(dom = "ftp", pageLength = 5),
+                  options = list(dom = "ftp", pageLength = 10),
                   selection = "multiple")
   })
   
@@ -1051,8 +1123,8 @@ server <- function(input, output, session) {
   
   outputOptions(output, "ui_rc_slider", suspendWhenHidden = FALSE, priority = 10)
   outputOptions(output, "dt_recap", suspendWhenHidden = FALSE, priority = 5)
-  #outputOptions(output, "scatter_classif_plot", suspendWhenHidden = FALSE, priority = 2)
-  #outputOptions(output, "dt_classif", suspendWhenHidden = FALSE, priority = 1)
+  outputOptions(output, "scatter_classif_plot", suspendWhenHidden = FALSE, priority = 2)
+  outputOptions(output, "dt_classif", suspendWhenHidden = FALSE, priority = 1)
   
 }
 
