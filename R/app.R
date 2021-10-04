@@ -81,7 +81,8 @@ ui <- fluidPage(
         mainPanel(
           
           plotOutput("import_plot"),
-          DT::DTOutput("stats_indicator")
+          DT::DTOutput("stats_indicator"),
+          shinyjs::hidden(downloadButton("dl_stats", "Download results"))
         )
       )
     ),
@@ -98,9 +99,9 @@ ui <- fluidPage(
                actionButton("reset_rc", "Reset"),
                actionButton("add_rc", "Add"),
                actionButton("delete_rc", "Delete"),
-               downloadButton("dl_rc", "Download selected recession"),
-               downloadButton("dl_rt", "Download table"),
-               downloadButton("dl_hydrofile", "Save KarstID recession workspace"),
+               shinyjs::hidden(downloadButton("dl_rc", "Download selected recession")),
+               shinyjs::hidden(downloadButton("dl_rt", "Download table")),
+               shinyjs::hidden(downloadButton("dl_hydrofile", "Save KarstID recession workspace")),
                fileInput("ul_rc", "Upload KarstID recession workspace", accept = file_format),
                DT::DTOutput("dt_recap")
         ),
@@ -123,7 +124,7 @@ ui <- fluidPage(
       column(6, plotOutput("acf_plot")),
       column(6, plotOutput("spf_plot")),
       uiOutput("ui_acspf_slider"),
-      downloadButton("dl_acspf", "Download results")
+      shinyjs::hidden(downloadButton("dl_acspf", "Download results"))
     ),
     
     tabPanel(
@@ -131,11 +132,11 @@ ui <- fluidPage(
       
       column(6, 
              plotOutput("fdc_plot_normal"),
-             downloadButton("dl_fdc_normal", "Download results")),
+             shinyjs::hidden(downloadButton("dl_fdc_normal", "Download results"))),
       
       column(6, 
              plotOutput("fdc_plot_mangin"),
-             downloadButton("dl_fdc_mangin", "Download results")),
+             shinyjs::hidden(downloadButton("dl_fdc_mangin", "Download results"))),
     ),
     
     tabPanel(
@@ -174,9 +175,35 @@ server <- function(input, output, session) {
   
   shinyhelper::observe_helpers(withMathJax = TRUE)
   
+  # about popup
+  
   observeEvent(input$about, {
     about_popup()
   })
+  
+  # hide download button if no dataset
+  
+  observe({
+    if (!is.null(df$df)) {
+      shinyjs::show("dl_stats")
+      shinyjs::show("dl_rc")
+      shinyjs::show("dl_rt")
+      shinyjs::show("dl_hydrofile")
+      shinyjs::show("dl_acspf")
+      shinyjs::show("dl_fdc_normal")
+      shinyjs::show("dl_fdc_mangin")
+    } else {
+      shinyjs::hide("dl_stats")
+      shinyjs::hide("dl_rc")
+      shinyjs::hide("dl_rt")
+      shinyjs::hide("dl_hydrofile")
+      shinyjs::hide("dl_acspf")
+      shinyjs::hide("dl_fdc_normal")
+      shinyjs::hide("dl_fdc_mangin")
+    }
+  })
+  
+  # last tab memory
   
   tab <- reactiveValues(last = "Data import",
                         current = "Data import")
@@ -239,6 +266,8 @@ server <- function(input, output, session) {
                     SVC = Q90 / Q10) %>% 
       dplyr::mutate(dplyr::across(dplyr::everything(), round, 2)) %>% 
       # add unit with HTML and escape = FALSE
+      # CAREFUL, if any changes in the number/order of variables,
+      # you must change the names() in the output$dl_stats
       dplyr::rename("Mean<br>(m<sup>3</sup>.s<sup>-1</sup>)" = Mean,
                     "Min<br>(m<sup>3</sup>.s<sup>-1</sup>)" = Min,
                     "Max<br>(m<sup>3</sup>.s<sup>-1</sup>)" = Max,
@@ -327,6 +356,15 @@ server <- function(input, output, session) {
       write.table(df_interp(), filename, sep = "\t", row.names = FALSE)
     },
   )
+  
+  output$dl_stats <- downloadHandler(
+    filename = paste0(input$name, "_statistics.txt"),
+    content = function(filename) {
+      dt <- dt_stats()
+      names(dt) <- c("Mean", "Min", "Max", "SD", "Q10", "Q90", "CV", "SVC", "Number of NAs")
+      write.table(dt, filename, sep = "\t", row.names = FALSE)
+    }
+  )  
   
   # manual recession selection -------------------------------------------------
   
