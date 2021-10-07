@@ -60,9 +60,11 @@ plot_acf <- function(k, rk) {
   ggplot(x, aes(k, rk)) +
     geom_line(size = 0.8) +
     theme_bw() +
+    ggtitle("Autocorrelation Function") +
     xlab("k (days)") +
     ylab(expression(r[k])) +
-    theme(axis.title = element_text(size = 16, color = "#2d2d2d"),
+    theme(title = element_text(size = 16, color = "#2d2d2d"),
+          axis.title = element_text(size = 16, color = "#2d2d2d"),
           axis.text = element_text(size = 14, color = "#2d2d2d"))
 }
 
@@ -71,8 +73,10 @@ plot_spf <- function(f, sf) {
   ggplot(x, aes(f, sf)) +
     geom_line(size = 0.8) +
     theme_bw() +
+    ggtitle("Variance Density Spectrum") +
     xlab(expression("f" ~(days^-1))) +
     ylab(expression(s[f])) +
-    theme(axis.title = element_text(size = 16, color = "#2d2d2d"),
+    theme(title = element_text(size = 16, color = "#2d2d2d"),
+          axis.title = element_text(size = 16, color = "#2d2d2d"),
           axis.text = element_text(size = 14, color = "#2d2d2d"))
 }

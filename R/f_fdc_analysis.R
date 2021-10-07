@@ -58,18 +58,22 @@ plot_fdc <- function(fdc_df, method) {
       geom_line(size = 0.8) +
       scale_y_continuous(breaks = yticks, labels = ylabel) +
       theme_bw() +
+      ggtitle("Mangin Method") +
       xlab(expression("Discharge" ~(m^3~.s^-1))) +
       ylab("Probability exceedance") +
-      theme(axis.title = element_text(size = 16, color = "#2d2d2d"),
+      theme(title = element_text(size = 16, color = "#2d2d2d"),
+            axis.title = element_text(size = 16, color = "#2d2d2d"),
             axis.text = element_text(size = 14, color = "#2d2d2d"))
     
   } else if (method == "normal") {
     ggplot(fdc_df, aes(x = quant, y = discharge_ordered_unique)) + 
       geom_line(size = 0.8) +
       theme_bw() +
+      ggtitle("Classic Method") +
       xlab("Probability exceedance") +
       ylab(expression("Discharge" ~(m^3~.s^-1))) +
-      theme(axis.title = element_text(size = 16, color = "#2d2d2d"),
+      theme(title = element_text(size = 16, color = "#2d2d2d"),
+            axis.title = element_text(size = 16, color = "#2d2d2d"),
             axis.text = element_text(size = 14, color = "#2d2d2d"))
   }
 }
