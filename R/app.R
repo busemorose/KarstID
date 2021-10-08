@@ -769,7 +769,7 @@ server <- function(input, output, session) {
   })
   
   output$rc_model_plot <- renderPlot({ 
-    req(input$dt_recap_rows_selected)
+    req(input$dt_recap_rows_selected, length(input$bp_value) > 0)
     plot_rc_model(selected_recession(), mangin_model()[["recession"]], input$bp_value)
   })
   
