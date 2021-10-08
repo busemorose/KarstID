@@ -161,7 +161,13 @@ C6_dist <- function(kmax, IR) {
 }
 
 msg_dist <- function(x) {
-  if (is.na(x)) "/" else paste0(x, "%")
+  if (is.na(x)) 
+    " /" 
+  else 
+    if (x > 10)
+      paste0(x, "%")
+    else
+      paste0("<b>", x, "%", "</b>")
 }
 
 show_popup <- function(msg) {

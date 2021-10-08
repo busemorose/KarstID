@@ -208,7 +208,7 @@ ui <- fluidPage(
                  column(8,
                         br(),
                         tags$h3("Distance to class:"),
-                        tagAppendAttributes(tags$h5(textOutput("class_distance")), # allow \n in text
+                        tagAppendAttributes(tags$h5(htmlOutput("class_distance")), # allow \n in text
                                             style = "white-space:pre-wrap;"))
                  
                  ),
@@ -1050,13 +1050,19 @@ server <- function(input, output, session) {
   
   output$classif_txt <- renderText({
     name <- ifelse(input$name == "", "The system", input$name)
-    carac_system(name, class())
+    if (!is.na(class())) carac_system(name, class())
   })
   
   output$indicator_txt <- renderText({
-    paste0("k max = ", round(kmax(), 3), "\n", 
-           "alpha mean = ", round(alphamean(), 3), "\n",
-           "IR = ", round(ir(), 3))
+    if (is.na(kmax()) & is.na(alphamean()) & is.na(ir()))
+      paste0("Indicators cannot be calculated: \n" ,
+             "- No recession curves have been selected \n",
+             "- Mangin's model has not been applied \n",
+             "- Recession indicators were not saved")
+    else
+      paste0("k max = ", round(kmax(), 3), "\n", 
+             "alpha mean = ", round(alphamean(), 3), "\n",
+             "IR = ", round(ir(), 3))
   })
   
   output$class_distance <- renderText({
