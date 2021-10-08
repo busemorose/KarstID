@@ -857,8 +857,18 @@ server <- function(input, output, session) {
   }) 
   
   output$display_acspf <- renderText({
-    paste0("Memory Effect = ", round(ascp_results()$mem_ef, 2), " days \n", 
-           "Regulation Time = ", round(ascp_results()$reg_time, 3), " days")
+    if (!is.na(ascp_results()$mem_ef))
+      mem_ef_txt <- paste0("Memory Effect = ", round(ascp_results()$mem_ef, 2), " days \n")
+    else
+      mem_ef_txt <- paste0("Memory Effect cannot be calculated. \n")
+    
+    if (!is.na(ascp_results()$reg_time))
+      reg_time_txt <- paste0("Regulation Time = ", round(ascp_results()$reg_time, 2), " days")
+    else
+      reg_time_txt <- paste0("Regulation Time cannot be calculated.")
+  
+    paste0(mem_ef_txt, 
+           reg_time_txt)
   })
   
   # analysis of classified discharges ---------------------------------------
