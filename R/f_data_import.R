@@ -162,3 +162,9 @@ about_popup <- function() {
     footer = NULL
   ))
 }
+
+.onAttach <- function(libname, pkgname) {
+  shiny::addResourcePath("extdata",
+                         system.file("extdata",
+                                     package = "KarstID"))
+}
