@@ -242,13 +242,13 @@ ui <- fluidPage(
     
     tags$script(
       HTML("var header = $('.navbar > .container-fluid');
-header.append('<div style=\"float:right\"><img src=\"extdata/KARMA_logo.jpg\" style=\"float:right; width:40px; padding-top:8px; padding-right:5px;\"> </div>');
+header.append('<div style=\"float:right\"><img src=\"extdata/KARMA_logo.png\" style=\"float:right; height:43px; padding-top:8px; padding-right:5px;\"> </div>');
     console.log(header)")
     ),
     
     tags$script(
       HTML("var header = $('.navbar > .container-fluid');
-header.append('<div style=\"float:right\"><img src=\"extdata/SNOKARST_logo.png\" style=\"float:right; width:40px; padding-top:8px; padding-right:5px;\"> </div>');
+header.append('<div style=\"float:right\"><img src=\"extdata/SNOKARST_logo.png\" style=\"float:right; height:43px; padding-top:8px; padding-right:5px;\"> </div>');
     console.log(header)")
     )
     
