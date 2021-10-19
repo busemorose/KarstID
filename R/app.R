@@ -214,11 +214,11 @@ ui <- fluidPage(
                  ),
                
                fluidRow(br(),
-                        textOutput("classif_txt", inline = TRUE))
+                        textOutput("classif_txt"))
         ),
         
         column(7,
-               imageOutput("classif_img"))
+               imageOutput("classif_img", inline = TRUE))
         
       ),
       
