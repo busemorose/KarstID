@@ -34,7 +34,7 @@ ui <- fluidPage(
   tags$head(tags$style(
     type = "text/css",
     "#classif_img img {max-width: 100%; width: 100%; height: auto}"
-  ))
+  )),
   
   navbarPage(
     "KarstID",
