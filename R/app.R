@@ -31,11 +31,6 @@ ui <- fluidPage(
   waiter::useWaiter(),
   waiter::waiterPreloader(),
   
-  tags$head(tags$style(
-    type = "text/css",
-    "#classif_img img {max-width: 100%; width: 100%; height: auto}"
-  )),
-  
   navbarPage(
     "KarstID",
     id = "menu",
@@ -219,7 +214,7 @@ ui <- fluidPage(
                  ),
                
                fluidRow(br(),
-                        textOutput("classif_txt"))
+                        textOutput("classif_txt", inline = TRUE))
         ),
         
         column(7,
