@@ -164,7 +164,6 @@ about_popup <- function() {
 }
 
 .onLoad <- function(libname, pkgname) {
-  print("ble")
   shiny::addResourcePath("extdata",
                          system.file("extdata",
                                      package = "KarstID"))
