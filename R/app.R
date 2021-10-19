@@ -218,7 +218,7 @@ ui <- fluidPage(
         ),
         
         column(7,
-               imageOutput("classif_img"), height = "100%")
+               imageOutput("classif_img", height = "100%"))
         
       ),
       
