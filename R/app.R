@@ -819,7 +819,8 @@ server <- function(input, output, session) {
         footer = tagList(
           actionButton("perform_acspf", "Perform analysis"),
           actionButton("cancel_acspf", "Cancel")
-        )
+        ),
+        fade = FALSE
       )
     )
   })

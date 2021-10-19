@@ -158,8 +158,10 @@ about_popup <- function() {
   showModal(modalDialog(
     title = "About KarstID",
     msg,
+    size = "l",
     easyClose = TRUE,
-    footer = NULL
+    footer = NULL,
+    fade = FALSE
   ))
 }
 

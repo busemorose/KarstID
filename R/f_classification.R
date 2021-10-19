@@ -175,7 +175,8 @@ show_popup <- function(msg) {
     title = "Classification may be biased",
     msg,
     easyClose = TRUE,
-    footer = NULL
+    footer = NULL,
+    fade = FALSE
   ))
 }
 
