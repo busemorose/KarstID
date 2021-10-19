@@ -163,11 +163,7 @@ about_popup <- function() {
   ))
 }
 
-<<<<<<< HEAD
 .onLoad <- function(libname, pkgname) {
-=======
-.onAttach <- function(libname, pkgname) {
->>>>>>> d8438397e053d6eddd4841099aab0c53011ccfcb
   print("ble")
   shiny::addResourcePath("extdata",
                          system.file("extdata",
