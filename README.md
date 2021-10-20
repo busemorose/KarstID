@@ -1,4 +1,19 @@
 
+-   [KarstID: Analysis of Karst Spring
+    Hydrographs](#karstid-analysis-of-karst-spring-hydrographs)
+    -   [Description](#description)
+    -   [Installation](#installation)
+    -   [Launch](#launch)
+    -   [Features](#features)
+        -   [Data import](#data-import)
+        -   [Missing discharge
+            interpolation](#missing-discharge-interpolation)
+        -   [Hydrodynamic analyses](#hydrodynamic-analyses)
+        -   [Classification](#classification)
+    -   [License](#license)
+    -   [References](#references)
+
+fefefe
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # KarstID: Analysis of Karst Spring Hydrographs
@@ -11,9 +26,9 @@ Guillaume Cinkus, Naomi Mazzilli and Hervé Jourde
 ## Description
 
 KarstID is an R Package devoted to the analysis of karst systems
-hydrological functioning developed in the R Shiny framework. The package
-consists in an interactive application that can be loaded through a web
-browser or the RStudio viewer.
+hydrological functioning. The package consists in an interactive
+application that can be loaded through a web browser or the RStudio
+viewer. The application is developed in the R Shiny framework.
 
 The goal of KarstID is to facilitate the completion of common analyses
 of karst spring hydrographs such as:
@@ -29,19 +44,20 @@ and offers to compare the results with a database of 78 karst systems
 located worldwide.
 
 The KarstID package is open source, actively developed and available on
-Github (<https://github.com/busemorose/KarstID>).
-
-§§§§§§§§§§§§§§§§ IN THE FUTURE ??????? §§§§§§§§§§§§§§§§§§§§§§§§
+Github (<https://github.com/busemorose/KarstID>). We will try to address
+user requests (new features or bug report). We also consider future
+developments such as different recession models, or other hydrodynamic
+analyses).
 
 ## Installation
 
 KarstID requires an installation of R. **It is recommended to use at
 least R `4.0.0`**. Note that it is possible to install the package with
-an R version prior to `4.0.0` but some conflicts may exist. You can
-download and find the instructions for the installation of R on the
-[CRAN website](https://cran.r-project.org/).
+an R version prior to `4.0.0` but some conflicts may exist. The
+instruction for the installation and the download of R can be found on
+the [CRAN website](https://cran.r-project.org/).
 
-Once R is installed, you can install KarstID from
+Once R is installed, KarstID can be installed from
 [GitHub](https://github.com/busemorose/KarstID).
 
 ``` r
@@ -51,7 +67,7 @@ devtools::install_github("busemorose/KarstID") # install KarstID package
 
 ## Launch
 
-Once the package is installed, you can load the application with the
+Once the package is installed, the application can be loaded with the
 `KarstID()` function.
 
 ``` r
@@ -63,19 +79,132 @@ KarstID()
 
 ### Data import
 
+The data import tab allows to load a spring discharge time series:
+
+-   The data must be a plain text or Excel file
+-   The file must have two columns representing date and discharge,
+    respectively
+-   The discharge must be in m<sup>3</sup>/s
+
+The import options allows the user to define:
+
+-   `Name`: will be used for export file and plot display
+-   `Time step`: time step of the time series
+-   `Skip row`: number of rows to skip at the beginning of the file
+-   `Sheet`: sheet number if Excel file
+-   `Decimal mark`: decimal mark of the discharge time series
+-   `Delimiter`: delimiter of the columns
+-   `Header`: presence of header or not (if no header, it will be
+    defaulted to `date` and `discharge`)
+-   `Compute and use daily mean`: only for hourly time step. Allows to
+    compute and use daily mean from (infra) hourly data
+-   `Date format`: format of the date (e.g. `%Y-%m-%d %H:%M:%S` for a
+    date-time format)
+
+After defining the import options, the user can click on `Load dataset`
+to import his data. The application will:
+
+-   Look for missing date entries (adapted to the time step of the time
+    series) and fill the blanks if necessary
+-   Interpolate missing discharge values if the user want to
+-   Apply a daily or hourly mean depending on the user preference
+-   Display the hydrograph on the import page
+
+It is also possible to use a “test dataset” as demonstrated below.
+
 <img src="gif/data_import.gif" width="100%" />
+
+### Missing discharge interpolation
+
+It is possible to interpolate missing values when importing discharge
+data:
+
+-   `Max interpolation gap size`: define the maximum gap (in days) which
+    will be interpolated with a spline function
+-   `Keep NA values`: define the behaviour when there are still missing
+    values after the interpolation (even if no interpolation). If
+    checked, the whole time series with missing will be loaded. If
+    unchecked, only the longest part of the time series without missing
+    values will be loaded
+
+<img src="gif/interp.gif" width="100%" />
 
 ### Hydrodynamic analyses
 
+#### Recession curves
+
+The recession curves selection tab allows to select recession curves and
+apply recession model. The recession selection is done with a slider and
+four buttons:
+
+-   `Select a time interval`: define the time interval of the above plot
+-   `Zoom`: zoom on the plot according to the dimensions of the mouse
+    brush
+-   `Reset`: reset the default (full) time interval
+-   `Add`: add the selected recession curve (dimensions of the mouse
+    brush) to the KarstID workspace. A recap of the information is
+    displayed in the table below
+-   `Delete`: delete the selected recession curve in the table below
+    from the KarstID workspace
+
+It is possible to save the time series of the recession curve with the
+`Download selected recession` button and save the recap table with the
+`Download table` button. It is possible to save and import the entire
+KarstID workspace with the `Upload KarstID recession workspace` and
+`Save KarstID recession workspace`.
+
 <img src="gif/recession_curves_selection.gif" width="100%" />
+
+Once the recession curves are selected, they all appear in the table
+below and can be selected. When selected, the recession model interface
+is displayed on the right. The workflow is:
+
+-   Remove potential perturbations on the recession with the
+    `Remove spikes in the recession curve` checkbox
+-   Click on the plot or enter a number in the `Breakpoint value`
+    numeric input to define the inflexion point of the Mangin model
+    (Mangin, 1975)
+-   Calculate and retain indicators of functioning with the
+    `Save indicators` button. The indicators appear in the recap table.
+    It is possible to cancel the results with `Clear selection`.
 
 <img src="gif/recession_curves_model.gif" width="100%" />
 
+#### Signal analyses
+
+The correlationnal and spectral analyses tab allows to visualize the
+results of these signal analyses proposed by Mangin (1984). The results
+are calculated automatically once a dataset is imported. It is possible
+to change the cutting point (in days) with the slider input below the
+graphs.
+
 <img src="gif/cs_analyses.gif" width="100%" />
+
+#### Classified discharges
+
+The analysis of classified discharges tab allows to visualize the
+results of the classic approach and the Mangin approach (1971). The
+results are calculated automatically once a dataset is imported.
 
 <img src="gif/classified_q.png" width="100%" />
 
 ### Classification
+
+The classification tab can be appreciated in four parts:
+
+-   The top left text (i) reminds the values of the indicators, (ii)
+    gives the distance to other classes, and (iii) displays a sentence
+    to describe the hydrological functioning of the system according to
+    its class
+-   The top right flowchart indicates how the system is classified
+    according to the values of the indicators of functioning
+-   The bottom right table contains the classes and indicators values of
+    78 karst systems located worldwide. By default, they are ordered by
+    distance to the investigated system
+-   The bottom left plot shows the investigated system (highlighted in
+    red) alongside the 78 other karst systems (highlighted in yellow).
+    The axis correspond to the three indicators of functioning used for
+    the classification
 
 <img src="gif/classif_system.png" width="100%" />
 
