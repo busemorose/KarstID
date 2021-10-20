@@ -13,7 +13,6 @@
     -   [License](#license)
     -   [References](#references)
 
-fefefe
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # KarstID: Analysis of Karst Spring Hydrographs
