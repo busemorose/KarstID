@@ -3,33 +3,107 @@
 
 # KarstID: Analysis of Karst Spring Hydrographs
 
+Guillaume Cinkus, Naomi Mazzilli and Hervé Jourde
+
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of KarstID is to implement common analyses of karst spring
-hydrographs in R through a Shiny application. It includes recession
-curves, statistical, classified discharges and correlational and
-spectral analyses. The application also allows performing a
-classification of the hydrological functioning and comparing the results
-to a database of 78 karst systems.
+## Description
+
+KarstID is an R Package devoted to the analysis of karst systems
+hydrological functioning developed in the R Shiny framework. The package
+consists in an interactive application that can be loaded through a web
+browser or the RStudio viewer.
+
+The goal of KarstID is to facilitate the completion of common analyses
+of karst spring hydrographs such as:
+
+-   Statistical analyses
+-   Recession curves analysis
+-   Correlationnal and spectal analyses
+-   Analyses of classified discharges
+
+The application also provides the classification of karst systems
+hydrological functioning based on the proposal of Cinkus et al. (2021)
+and offers to compare the results with a database of 78 karst systems
+located worldwide.
+
+The KarstID package is open source, actively developed and available on
+Github (<https://github.com/busemorose/KarstID>).
+
+§§§§§§§§§§§§§§§§ IN THE FUTURE ??????? §§§§§§§§§§§§§§§§§§§§§§§§
 
 ## Installation
 
-You can install KarstID from [GitHub](https://github.com/) with:
+KarstID requires an installation of R. **It is recommended to use at
+least R `4.0.0`**. Note that it is possible to install the package with
+an R version prior to `4.0.0` but some conflicts may exist. You can
+download and find the instructions for the installation of R on the
+[CRAN website](https://cran.r-project.org/).
+
+Once R is installed, you can install KarstID from
+[GitHub](https://github.com/busemorose/KarstID).
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("busemorose/KarstID")
+if (!require("devtools")) install.packages("devtools") # install devtools package if needed
+devtools::install_github("busemorose/KarstID") # install KarstID package
 ```
-
-Please consider that, somehow, the installation is easier using the last
-version of R (`4.1.0` at the time of writing).
 
 ## Launch
 
-This is how you launch the app:
+Once the package is installed, you can load the application with the
+`KarstID()` function.
 
 ``` r
 library(KarstID)
 KarstID()
 ```
+
+## Features
+
+### Data import
+
+<img src="gif/data_import.gif" width="100%" />
+
+### Hydrodynamic analyses
+
+<img src="gif/recession_curves_selection.gif" width="100%" />
+
+<img src="gif/recession_curves_model.gif" width="100%" />
+
+<img src="gif/cs_analyses.gif" width="100%" />
+
+<img src="gif/classified_q.png" width="100%" />
+
+### Classification
+
+<img src="gif/classif_system.png" width="100%" />
+
+<img src="gif/classif_database.gif" width="100%" />
+
+## License
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
+
+## References
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Bibliographie</title>
+</head>
+<body>
+<div class="csl-bib-body" style="line-height: 1.35; margin-left: 2em; text-indent:-2em;">
+  <div class="csl-entry">Cinkus, G., Mazzilli, N., Jourde, H., 2021. Identification of relevant indicators for the assessment of karst systems hydrological functioning: proposal of a new classification. Journal of Hydrology 127006. <a href="https://doi.org/10.1016/j.jhydrol.2021.127006">https://doi.org/10.1016/j.jhydrol.2021.127006</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2Fj.jhydrol.2021.127006&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Identification%20of%20relevant%20indicators%20for%20the%20assessment%20of%20karst%20systems%20hydrological%20functioning%3A%20proposal%20of%20a%20new%20classification&amp;rft.jtitle=Journal%20of%20Hydrology&amp;rft.stitle=Journal%20of%20Hydrology&amp;rft.aufirst=Guillaume&amp;rft.aulast=Cinkus&amp;rft.au=Guillaume%20Cinkus&amp;rft.au=Naomi%20Mazzilli&amp;rft.au=Herv%C3%A9%20Jourde&amp;rft.date=2021-10-07&amp;rft.pages=127006&amp;rft.issn=0022-1694&amp;rft.language=en"></span>
+  <div class="csl-entry">Mangin, A., 1984. Pour une meilleure connaissance des systèmes hydrologiques à partir des analyses corrélatoire et spectrale. Journal of Hydrology 67, 25–43. <a href="https://doi.org/10.1016/0022-1694(84)90230-0">https://doi.org/10.1016/0022-1694(84)90230-0</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2F0022-1694(84)90230-0&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Pour%20une%20meilleure%20connaissance%20des%20syst%C3%A8mes%20hydrologiques%20%C3%A0%20partir%20des%20analyses%20corr%C3%A9latoire%20et%20spectrale&amp;rft.jtitle=Journal%20of%20Hydrology&amp;rft.volume=67&amp;rft.issue=1%E2%80%934&amp;rft.aufirst=Alain&amp;rft.aulast=Mangin&amp;rft.au=Alain%20Mangin&amp;rft.date=1984&amp;rft.pages=25-43&amp;rft.spage=25&amp;rft.epage=43&amp;rft.issn=00221694&amp;rft.language=fr"></span>
+  <div class="csl-entry">Mangin, A., 1975. Contribution à l’étude hydrodynamique des aquifères karstiques (PhD). Université de Bourgogne, Dijon.</div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Adissertation&amp;rft.title=Contribution%20%C3%A0%20l'%C3%A9tude%20hydrodynamique%20des%20aquif%C3%A8res%20karstiques&amp;rft.aufirst=Alain&amp;rft.aulast=Mangin&amp;rft.au=Alain%20Mangin&amp;rft.date=1975&amp;rft.tpages=268"></span>
+  <div class="csl-entry">Mangin, A., 1971. Etude des débits classés d’exutoires karstiques portant sur un cycle hydrologique. Annales de spéléologie 26, 283–329.</div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Etude%20des%20d%C3%A9bits%20class%C3%A9s%20d'exutoires%20karstiques%20portant%20sur%20un%20cycle%20hydrologique&amp;rft.jtitle=Annales%20de%20sp%C3%A9l%C3%A9ologie&amp;rft.volume=26&amp;rft.issue=2&amp;rft.aufirst=Alain&amp;rft.aulast=Mangin&amp;rft.au=Alain%20Mangin&amp;rft.date=1971&amp;rft.pages=283-329&amp;rft.spage=283&amp;rft.epage=329"></span>
+  <div class="csl-entry">Olarinoye, T., Gleeson, T., Marx, V., Seeger, S., Adinehvand, R., Allocca, V., Andreo, B., Apaéstegui, J., Apolit, C., Arfib, B., Auler, A., Bailly-Comte, V., Barberá, J.A., Batiot-Guilhe, C., Bechtel, T., Binet, S., Bittner, D., Blatnik, M., Bolger, T., Brunet, P., Charlier, J.-B., Chen, Z., Chiogna, G., Coxon, G., De Vita, P., Doummar, J., Epting, J., Fleury, P., Fournier, M., Goldscheider, N., Gunn, J., Guo, F., Guyot, J.L., Howden, N., Huggenberger, P., Hunt, B., Jeannin, P.-Y., Jiang, G., Jones, G., Jourde, H., Karmann, I., Koit, O., Kordilla, J., Labat, D., Ladouche, B., Liso, I.S., Liu, Z., Maréchal, J.-C., Massei, N., Mazzilli, N., Mudarra, M., Parise, M., Pu, J., Ravbar, N., Sanchez, L.H., Santo, A., Sauter, M., Seidel, J.-L., Sivelle, V., Skoglund, R.Ø., Stevanovic, Z., Wood, C., Worthington, S., Hartmann, A., 2020. Global karst springs hydrograph dataset for research and management of the world’s fastest-flowing groundwater. Sci Data 7, 59. <a href="https://doi.org/10.1038/s41597-019-0346-5">https://doi.org/10.1038/s41597-019-0346-5</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1038%2Fs41597-019-0346-5&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Global%20karst%20springs%20hydrograph%20dataset%20for%20research%20and%20management%20of%20the%20world%E2%80%99s%20fastest-flowing%20groundwater&amp;rft.jtitle=Scientific%20Data&amp;rft.stitle=Sci%20Data&amp;rft.volume=7&amp;rft.issue=1&amp;rft.aufirst=Tunde&amp;rft.aulast=Olarinoye&amp;rft.au=Tunde%20Olarinoye&amp;rft.au=Tom%20Gleeson&amp;rft.au=Vera%20Marx&amp;rft.au=Stefan%20Seeger&amp;rft.au=Rouhollah%20Adinehvand&amp;rft.au=Vincenzo%20Allocca&amp;rft.au=Bartolome%20Andreo&amp;rft.au=James%20Apa%C3%A9stegui&amp;rft.au=Christophe%20Apolit&amp;rft.au=Bruno%20Arfib&amp;rft.au=Augusto%20Auler&amp;rft.au=Vincent%20Bailly-Comte&amp;rft.au=Juan%20Antonio%20Barber%C3%A1&amp;rft.au=Christelle%20Batiot-Guilhe&amp;rft.au=Timothy%20Bechtel&amp;rft.au=Stephane%20Binet&amp;rft.au=Daniel%20Bittner&amp;rft.au=Matej%20Blatnik&amp;rft.au=Terry%20Bolger&amp;rft.au=Pascal%20Brunet&amp;rft.au=Jean-Baptiste%20Charlier&amp;rft.au=Zhao%20Chen&amp;rft.au=Gabriele%20Chiogna&amp;rft.au=Gemma%20Coxon&amp;rft.au=Pantaleone%20De%20Vita&amp;rft.au=Joanna%20Doummar&amp;rft.au=Jannis%20Epting&amp;rft.au=Perrine%20Fleury&amp;rft.au=Matthieu%20Fournier&amp;rft.au=Nico%20Goldscheider&amp;rft.au=John%20Gunn&amp;rft.au=Fang%20Guo&amp;rft.au=Jean%20Loup%20Guyot&amp;rft.au=Nicholas%20Howden&amp;rft.au=Peter%20Huggenberger&amp;rft.au=Brian%20Hunt&amp;rft.au=Pierre-Yves%20Jeannin&amp;rft.au=Guanghui%20Jiang&amp;rft.au=Greg%20Jones&amp;rft.au=Herve%20Jourde&amp;rft.au=Ivo%20Karmann&amp;rft.au=Oliver%20Koit&amp;rft.au=Jannes%20Kordilla&amp;rft.au=David%20Labat&amp;rft.au=Bernard%20Ladouche&amp;rft.au=Isabella%20Serena%20Liso&amp;rft.au=Zaihua%20Liu&amp;rft.au=Jean-Christophe%20Mar%C3%A9chal&amp;rft.au=Nicolas%20Massei&amp;rft.au=Naomi%20Mazzilli&amp;rft.au=Mat%C3%ADas%20Mudarra&amp;rft.au=Mario%20Parise&amp;rft.au=Junbing%20Pu&amp;rft.au=Nata%C5%A1a%20Ravbar&amp;rft.au=Liz%20Hidalgo%20Sanchez&amp;rft.au=Antonio%20Santo&amp;rft.au=Martin%20Sauter&amp;rft.au=Jean-Luc%20Seidel&amp;rft.au=Vianney%20Sivelle&amp;rft.au=Rannveig%20%C3%98vrevik%20Skoglund&amp;rft.au=Zoran%20Stevanovic&amp;rft.au=Cameron%20Wood&amp;rft.au=Stephen%20Worthington&amp;rft.au=Andreas%20Hartmann&amp;rft.date=2020-12&amp;rft.pages=59&amp;rft.issn=2052-4463&amp;rft.language=en"></span>
+</div></body>
+</html>
