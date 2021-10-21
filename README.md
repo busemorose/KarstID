@@ -196,8 +196,9 @@ results are calculated automatically once a dataset is imported.
 The classification tab can be appreciated in four parts:
 
 -   The top left text (i) reminds the values of the indicators, (ii)
-    gives the distance to other classes, and (iii) displays description
-    of the hydrological functioning of the system according to its class
+    gives the distance to other classes, and (iii) displays a
+    description of the hydrological functioning of the system according
+    to its class
 -   The top right flowchart indicates how the system is classified
     according to the values of the indicators of functioning
 -   The bottom right table contains the classes and indicators values of

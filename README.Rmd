@@ -151,7 +151,7 @@ knitr::include_graphics("gif/classified_q.png")
 
 The classification tab can be appreciated in four parts:
 
-- The top left text (i) reminds the values of the indicators, (ii) gives the distance to other classes, and (iii) displays description of the hydrological functioning of the system according to its class
+- The top left text (i) reminds the values of the indicators, (ii) gives the distance to other classes, and (iii) displays a description of the hydrological functioning of the system according to its class
 - The top right flowchart indicates how the system is classified according to the values of the indicators of functioning
 - The bottom right table contains the classes and indicators values of 78 karst systems located worldwide. By default, they are ordered by distance to the investigated system
 - The bottom left plot shows the investigated system (highlighted in red) alongside the 78 other karst systems. It is possible to select a system in the table to highlight it in yellow on the plot The axis correspond to the three indicators of functioning used for the classification
