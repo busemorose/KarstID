@@ -37,16 +37,18 @@ of karst spring hydrographs such as:
 -   Correlationnal and spectal analyses
 -   Analyses of classified discharges
 
-The application also provides the classification of karst systems
-hydrological functioning based on the proposal of Cinkus et al. (2021)
-and offers to compare the results with a database of 78 karst systems
-located worldwide.
+The equations behind the analyses and the calculation of the indicators
+are detailed in Cinkus et al. (2021). The application also provides the
+classification of karst systems hydrological functioning based on the
+proposal of Cinkus et al. (2021) and offers to compare the results with
+a database of 78 karst systems located worldwide (Olarinoye et al.,
+2020).
 
 The KarstID package is open source, actively developed and available on
 Github (<https://github.com/busemorose/KarstID>). We will try to address
 user requests (new features or bug report). We also consider future
-developments such as different recession models, or other hydrodynamic
-analyses).
+developments such as different recession models, or adding other
+hydrodynamic analyses.
 
 ## Installation
 
@@ -87,15 +89,15 @@ The data import tab allows to load a spring discharge time series:
 
 The import options allows the user to define:
 
--   `Name`: will be used for export file and plot display
--   `Time step`: time step of the time series
+-   `Name`: will be used for export file names and plot displays
+-   `Time step`: time step of the imported time series
 -   `Skip row`: number of rows to skip at the beginning of the file
 -   `Sheet`: sheet number if Excel file
--   `Decimal mark`: decimal mark of the discharge time series
+-   `Decimal mark`: decimal mark of the discharge values
 -   `Delimiter`: delimiter of the columns
--   `Header`: presence of header or not (if no header, it will be
-    defaulted to `date` and `discharge`)
--   `Compute and use daily mean`: only for hourly time step. Allows to
+-   `Header`: presence of header or not (if no header, column names will
+    be defaulted to `date` and `discharge`)
+-   `Compute and use daily mean`: only for hourly time step. If checked,
     compute and use daily mean from (infra) hourly data
 -   `Date format`: format of the date (e.g. `%Y-%m-%d %H:%M:%S` for a
     date-time format)
@@ -106,7 +108,8 @@ to import his data. The application will:
 -   Look for missing date entries (adapted to the time step of the time
     series) and fill the blanks if necessary
 -   Interpolate missing discharge values if the user want to
--   Apply a daily or hourly mean depending on the user preference
+-   Apply a daily or hourly mean depending on the user preference and
+    the initial time step
 -   Display the hydrograph on the import page
 
 It is also possible to use a “test dataset” as demonstrated below.
@@ -122,9 +125,9 @@ data:
     will be interpolated with a spline function
 -   `Keep NA values`: define the behaviour when there are still missing
     values after the interpolation (even if no interpolation). If
-    checked, the whole time series with missing will be loaded. If
-    unchecked, only the longest part of the time series without missing
-    values will be loaded
+    checked, the whole time series with missing values will be loaded.
+    If unchecked, only the longest part of the time series without
+    missing values will be loaded
 
 <img src="gif/interp.gif" width="100%" />
 
@@ -136,27 +139,27 @@ The recession curves selection tab allows to select recession curves and
 apply recession model. The recession selection is done with a slider and
 four buttons:
 
--   `Select a time interval`: define the time interval of the above plot
+-   `Select a time interval`: define the time interval of the plot
 -   `Zoom`: zoom on the plot according to the dimensions of the mouse
     brush
 -   `Reset`: reset the default (full) time interval
 -   `Add`: add the selected recession curve (dimensions of the mouse
     brush) to the KarstID workspace. A recap of the information is
     displayed in the table below
--   `Delete`: delete the selected recession curve in the table below
-    from the KarstID workspace
+-   `Delete`: delete the selected recession curve in the table from the
+    KarstID workspace
 
-It is possible to save the time series of the recession curve with the
-`Download selected recession` button and save the recap table with the
-`Download table` button. It is possible to save and import the entire
-KarstID workspace with the `Upload KarstID recession workspace` and
-`Save KarstID recession workspace`.
+It is possible to save the time series of the selected recession curves
+with the `Download selected recession` button and save the recap table
+with the `Download table` button. It is possible to save and import the
+entire KarstID workspace with the `Save KarstID recession workspace` and
+`Upload KarstID recession workspace`, respectively.
 
 <img src="gif/recession_curves_selection.gif" width="100%" />
 
-Once the recession curves are selected, they all appear in the table
-below and can be selected. When selected, the recession model interface
-is displayed on the right. The workflow is:
+Once the recession curves are saved, they all appear in the table below
+and can be selected. When selected, the recession model interface is
+displayed on the right. The workflow is:
 
 -   Remove potential perturbations on the recession with the
     `Remove spikes in the recession curve` checkbox
@@ -165,7 +168,7 @@ is displayed on the right. The workflow is:
     (Mangin, 1975)
 -   Calculate and retain indicators of functioning with the
     `Save indicators` button. The indicators appear in the recap table.
-    It is possible to cancel the results with `Clear selection`.
+    It is possible to cancel the results with `Clear selection`
 
 <img src="gif/recession_curves_model.gif" width="100%" />
 
@@ -182,7 +185,7 @@ graphs.
 #### Classified discharges
 
 The analysis of classified discharges tab allows to visualize the
-results of the classic approach and the Mangin approach (1971). The
+results of the classic approach and the Mangin (1971) approach. The
 results are calculated automatically once a dataset is imported.
 
 <img src="gif/classified_q.png" width="100%" />
@@ -192,18 +195,18 @@ results are calculated automatically once a dataset is imported.
 The classification tab can be appreciated in four parts:
 
 -   The top left text (i) reminds the values of the indicators, (ii)
-    gives the distance to other classes, and (iii) displays a sentence
-    to describe the hydrological functioning of the system according to
-    its class
+    gives the distance to other classes, and (iii) displays description
+    of the hydrological functioning of the system according to its class
 -   The top right flowchart indicates how the system is classified
     according to the values of the indicators of functioning
 -   The bottom right table contains the classes and indicators values of
     78 karst systems located worldwide. By default, they are ordered by
     distance to the investigated system
 -   The bottom left plot shows the investigated system (highlighted in
-    red) alongside the 78 other karst systems (highlighted in yellow).
-    The axis correspond to the three indicators of functioning used for
-    the classification
+    red) alongside the 78 other karst systems. It is possible to select
+    a system in the table to highlight it in yellow on the plot The axis
+    correspond to the three indicators of functioning used for the
+    classification
 
 <img src="gif/classif_system.png" width="100%" />
 
@@ -223,8 +226,8 @@ The classification tab can be appreciated in four parts:
 </head>
 <body>
 <div class="csl-bib-body" style="line-height: 1.35; margin-left: 2em; text-indent:-2em;">
-  <div class="csl-entry">Cinkus, G., Mazzilli, N., Jourde, H., 2021. Identification of relevant indicators for the assessment of karst systems hydrological functioning: proposal of a new classification. Journal of Hydrology 127006. <a href="https://doi.org/10.1016/j.jhydrol.2021.127006">https://doi.org/10.1016/j.jhydrol.2021.127006</a></div>
-  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2Fj.jhydrol.2021.127006&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Identification%20of%20relevant%20indicators%20for%20the%20assessment%20of%20karst%20systems%20hydrological%20functioning%3A%20proposal%20of%20a%20new%20classification&amp;rft.jtitle=Journal%20of%20Hydrology&amp;rft.stitle=Journal%20of%20Hydrology&amp;rft.aufirst=Guillaume&amp;rft.aulast=Cinkus&amp;rft.au=Guillaume%20Cinkus&amp;rft.au=Naomi%20Mazzilli&amp;rft.au=Herv%C3%A9%20Jourde&amp;rft.date=2021-10-07&amp;rft.pages=127006&amp;rft.issn=0022-1694&amp;rft.language=en"></span>
+  <div class="csl-entry">Cinkus, G., Mazzilli, N., Jourde, H., 2021. Identification of relevant indicators for the assessment of karst systems hydrological functioning: Proposal of a new classification. Journal of Hydrology 603, 127006. <a href="https://doi.org/10.1016/j.jhydrol.2021.127006">https://doi.org/10.1016/j.jhydrol.2021.127006</a></div>
+  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2Fj.jhydrol.2021.127006&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Identification%20of%20relevant%20indicators%20for%20the%20assessment%20of%20karst%20systems%20hydrological%20functioning%3A%20Proposal%20of%20a%20new%20classification&amp;rft.jtitle=Journal%20of%20Hydrology&amp;rft.stitle=Journal%20of%20Hydrology&amp;rft.volume=603&amp;rft.aufirst=Guillaume&amp;rft.aulast=Cinkus&amp;rft.au=Guillaume%20Cinkus&amp;rft.au=Naomi%20Mazzilli&amp;rft.au=Herv%C3%A9%20Jourde&amp;rft.date=2021-12-01&amp;rft.pages=127006&amp;rft.issn=0022-1694&amp;rft.language=en"></span>
   <div class="csl-entry">Mangin, A., 1984. Pour une meilleure connaissance des systèmes hydrologiques à partir des analyses corrélatoire et spectrale. Journal of Hydrology 67, 25–43. <a href="https://doi.org/10.1016/0022-1694(84)90230-0">https://doi.org/10.1016/0022-1694(84)90230-0</a></div>
   <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2F0022-1694(84)90230-0&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Pour%20une%20meilleure%20connaissance%20des%20syst%C3%A8mes%20hydrologiques%20%C3%A0%20partir%20des%20analyses%20corr%C3%A9latoire%20et%20spectrale&amp;rft.jtitle=Journal%20of%20Hydrology&amp;rft.volume=67&amp;rft.issue=1%E2%80%934&amp;rft.aufirst=Alain&amp;rft.aulast=Mangin&amp;rft.au=Alain%20Mangin&amp;rft.date=1984&amp;rft.pages=25-43&amp;rft.spage=25&amp;rft.epage=43&amp;rft.issn=00221694&amp;rft.language=fr"></span>
   <div class="csl-entry">Mangin, A., 1975. Contribution à l’étude hydrodynamique des aquifères karstiques (PhD). Université de Bourgogne, Dijon.</div>
