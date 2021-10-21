@@ -38,11 +38,12 @@ of karst spring hydrographs such as:
 -   Analyses of classified discharges
 
 The equations behind the analyses and the calculation of the indicators
-are detailed in Cinkus et al. (2021). The application also provides the
-classification of karst systems hydrological functioning based on the
-proposal of Cinkus et al. (2021) and offers to compare the results with
-a database of 78 karst systems located worldwide (Olarinoye et al.,
-2020).
+are detailed in Cinkus et al. (2021)
+(<https://doi.org/10.1016/j.jhydrol.2021.127006>). The application also
+provides the classification of karst systems hydrological functioning
+based on the proposal of Cinkus et al. (2021) and offers to compare the
+results with a database of 78 karst systems located worldwide (Olarinoye
+et al., 2020, <https://doi.org/10.1038/s41597-019-0346-5>).
 
 The KarstID package is open source, actively developed and available on
 Github (<https://github.com/busemorose/KarstID>). We will try to address
