@@ -196,6 +196,10 @@ ui <- fluidPage(
       fluidRow(
         
         column(5,
+               imageOutput("classif_img", inline = TRUE)),
+        
+        column(5,
+               offset = 1,
                
                fluidRow(
                  
@@ -215,11 +219,7 @@ ui <- fluidPage(
                
                fluidRow(br(),
                         textOutput("classif_txt"))
-        ),
-        
-        column(7,
-               imageOutput("classif_img", inline = TRUE))
-        
+        )
       ),
       
       hr(),
