@@ -187,6 +187,7 @@ ui <- fluidPage(
       column(6, 
              plotOutput("fdc_plot_mangin"),
              br(),
+             shinyjs::hidden(checkboxInput("fdc_mangin_log", "Logarithmic scale")),
              shinyjs::hidden(downloadButton("dl_fdc_mangin", "Download results"))),
     ),
     
@@ -288,6 +289,7 @@ server <- function(input, output, session) {
       shinyjs::show("dl_acspf")
       shinyjs::show("dl_fdc_normal")
       shinyjs::show("dl_fdc_mangin")
+      shinyjs::show("fdc_mangin_log")
     } else {
       shinyjs::hide("dl_stats")
       shinyjs::hide("dl_rc")
@@ -296,6 +298,7 @@ server <- function(input, output, session) {
       shinyjs::hide("dl_acspf")
       shinyjs::hide("dl_fdc_normal")
       shinyjs::hide("dl_fdc_mangin")
+      shinyjs::hide("fdc_mangin_log")
     }
   })
 
@@ -901,7 +904,7 @@ server <- function(input, output, session) {
   })
   
   output$fdc_plot_mangin <- renderPlot({
-    plot_fdc(fdc_df_mangin(), method = "mangin")
+    plot_fdc(fdc_df_mangin(), method = "mangin", xlog = input$fdc_mangin_log)
   })
   
   output$dl_fdc_normal <- downloadHandler(

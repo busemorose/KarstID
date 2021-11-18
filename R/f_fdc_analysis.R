@@ -48,14 +48,17 @@ fdc_normal <- function(discharge) {
     dplyr::mutate(quant = 1 - quant)
 }
 
-plot_fdc <- function(fdc_df, method) {
+plot_fdc <- function(fdc_df, method, xlog = FALSE) {
   if (method == "mangin") {  
     yticks <- c(0.10, 0.30, 0.50, 0.70, 0.80, 0.90, 0.95, 0.98, 0.99, 0.995, 0.998, 0.9999)
     ylabel <- as.character(yticks)
     yticks <- sqrt(2) * erfinv(yticks)
     
+    if (xlog == TRUE) logscale <- "log10" else logscale <- "identity"
+    
     ggplot(fdc_df, aes(x = discharge_ordered_unique, y = y_class)) + 
       geom_line(size = 0.8) +
+      scale_x_continuous(trans = logscale) +
       scale_y_continuous(breaks = yticks, labels = ylabel) +
       theme_bw() +
       ggtitle("Mangin Method") +
