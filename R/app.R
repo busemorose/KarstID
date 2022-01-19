@@ -110,7 +110,7 @@ ui <- fluidPage(
     ),
     
     tabPanel(
-      "Recession curves selection",
+      "Recession curves analysis",
       
       fluidRow(
         

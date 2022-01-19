@@ -136,7 +136,7 @@ data:
 
 #### Recession curves
 
-The recession curves selection tab allows to select recession curves and
+The recession curves analysis tab allows to select recession curves and
 apply recession model. The recession selection is done with a slider and
 four buttons:
 
