@@ -2,7 +2,7 @@
 #' 
 #' An implementation of common analyses of karst spring hydrographs
 #' through a Shiny application. It includes recession curves, statistical, 
-#' classified discharges and correlational and spectral analyses. The 
+#' classified discharges and simple correlational and spectral analyses. The 
 #' application also allows performing a classification of the hydrological 
 #' functioning and comparing the results to a database of 78 karst systems.
 #' 
@@ -155,7 +155,7 @@ ui <- fluidPage(
     ),
     
     tabPanel(
-      "Correlational and spectral analyses",
+      "Simple correlational and spectral analyses",
       
       column(6, plotOutput("acf_plot")),
       column(6, plotOutput("spf_plot")),
@@ -783,10 +783,10 @@ server <- function(input, output, session) {
     paste0("RMSE = ", round(rmse, 4), " m3/s")
   })
   
-  # correlational and spectral analyses -------------------------------------
+  # Simple correlational and spectral analyses -------------------------------------
 
   ascp_results <- reactive({
-    req(isolate(input$menu) == "Correlational and spectral analyses")
+    req(isolate(input$menu) == "Simple correlational and spectral analyses")
     
     if (any(is.na(df_interp()$discharge))) {
       req(!notif$acsp)
@@ -809,12 +809,12 @@ server <- function(input, output, session) {
     bindCache(df$df, df_interp(), notif$acsp, input$acspf_slider, isolate(input$max_gap), isolate(data_mean_num()))
   
   observeEvent(input$menu, {
-    req(input$menu == "Correlational and spectral analyses")
+    req(input$menu == "Simple correlational and spectral analyses")
     req(any(is.na(df_interp()$discharge)))
     req(notif$acsp)
     showModal(
       modalDialog(
-        paste0("Do you want to perform correlational and spectral analyses on the longest non-NA part of the discharge time series?",
+        paste0("Do you want to perform simple correlational and spectral analyses on the longest non-NA part of the discharge time series?",
                " Current max gap \ninput is ",
                input$max_gap,
                ". Consider unchecking the `keep NA values` box and reload dataset in the import tab."),
@@ -854,7 +854,7 @@ server <- function(input, output, session) {
   })
   
   output$dl_acspf <- downloadHandler(
-    filename = paste0(input$name, "_correlational_and_spectral_export.txt"),
+    filename = paste0(input$name, "_simple_correlational_and_spectral_export.txt"),
     content = function(filename) {
       acspf_tab <- data.frame(k = ascp_results()$k,
                               rk = ascp_results()$rk,

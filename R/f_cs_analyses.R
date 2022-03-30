@@ -1,6 +1,6 @@
 ## ---------------------------
 ##
-## Purpose of script: define functions for part of the app: correlational and spectral analyses
+## Purpose of script: define functions for part of the app: simple correlational and spectral analyses
 ##
 ## Author: Guillaume Cinkus
 ##

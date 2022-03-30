@@ -12,7 +12,7 @@ KarstID(...)
 \description{
 An implementation of common analyses of karst spring hydrographs
 through a Shiny application. It includes recession curves, statistical,
-classified discharges and correlational and spectral analyses. The
+classified discharges and simple correlational and spectral analyses. The
 application also allows performing a classification of the hydrological
 functioning and comparing the results to a database of 78 karst systems.
 }

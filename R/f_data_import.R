@@ -145,7 +145,7 @@ thicken_data <- function(dataset) {
 }
 
 about_popup <- function() {
-  msg = HTML(paste0("KarstID proposes the application of common analyses of karst spring hydrographs in R through a Shiny application. It includes recession curves, statistical, classified discharges and correlational and spectral analyses. The application also allows performing a classification of the hydrological functioning and comparing the results to a database of 78 karst systems.",
+  msg = HTML(paste0("KarstID proposes the application of common analyses of karst spring hydrographs in R through a Shiny application. It includes recession curves, statistical, classified discharges and simple correlational and spectral analyses. The application also allows performing a classification of the hydrological functioning and comparing the results to a database of 78 karst systems.",
                     "<h3>Authors</h3>",
                     "Guillaume Cinkus, Naomi Mazzilli & Hervé Jourde",
                     "<h3>Contact</h3>",
