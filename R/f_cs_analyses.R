@@ -42,9 +42,15 @@ acspf <- function(discharge, max_lag = 125, timestep = 1) {
   f <- (f * timestep)[1:125]
   sf <- (sf / timestep)[1:125]
   
-  memory_effect <- stats::approx(x = acf$acf, y = acf$lag, xout = (0.2))$y / timestep
+  # calculation of memory effect
+  index_l0.2 <- min(which(acf$acf < 0.2))
+  index_me <- which.min(c(abs(acf$acf[index_l0.2-1] - 0.2), abs(acf$acf[index_l0.2] - 0.2))) + index_l0.2 - 2
+  memory_effect <- acf$lag[index_me] / timestep
+  
+  # calculation of regulation time
   regulation_time <- (max(sf) / 2) 
   
+  # list for export
   acspf$k = acf$lag
   acspf$rk = acf$acf
   acspf$f = f
