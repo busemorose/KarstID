@@ -14,6 +14,8 @@
 #' @import data.table
 #' @import ggplot2
 #' @importFrom magrittr %>%
+#' @importFrom stats qnorm quantile sd
+#' @importFrom utils write.table
 
 KarstID <- function(...) {
   
