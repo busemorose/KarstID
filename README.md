@@ -34,7 +34,7 @@ of karst spring hydrographs such as:
 
 -   Statistical analyses
 -   Recession curves analysis
--   Correlationnal and spectal analyses
+-   Simple correlationnal and spectal analyses
 -   Analyses of classified discharges
 
 The equations behind the analyses and the calculation of the indicators
@@ -175,11 +175,11 @@ displayed on the right. The workflow is:
 
 #### Signal analyses
 
-The correlationnal and spectral analyses tab allows to visualize the
-results of these signal analyses proposed by Mangin (1984). The results
-are calculated automatically once a dataset is imported. It is possible
-to change the cutting point (in days) with the slider input below the
-graphs.
+The simple correlationnal and spectral analyses tab allows to visualize
+the results of these signal analyses proposed by Mangin (1984). The
+results are calculated automatically once a dataset is imported. It is
+possible to change the cutting point (in days) with the slider input
+below the graphs.
 
 <img src="gif/cs_analyses.gif" width="100%" />
 
