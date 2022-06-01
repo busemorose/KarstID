@@ -58,14 +58,16 @@ import_data <- function(filepath,
       if (class(dataset$date) != "Date") dataset$date <- as.Date(dataset$date, format = date_format)
       if (any(is.na(dataset$date))) return(data.table(dataset))
       if (mean == "default") mean <- "day"
+      dataset$discharge <- as.numeric(dataset$discharge)
       dataset <- padr::pad(dataset)
       dataset <- fill_gap(dataset, maxgap, no_NA)
       dataset <- mean_discharge(dataset, mean)
       return(dataset)
     } else {
       if (!("POSIXct" %in% class(dataset$date))) dataset$date <- as.POSIXct(dataset$date, format = date_format)
-      if (mean == "default") mean <- "hour"
       if (any(is.na(dataset$date))) return(data.table(dataset))
+      if (mean == "default") mean <- "hour"
+      dataset$discharge <- as.numeric(dataset$discharge)
       if (padr::get_interval(dataset$date) != "hour") dataset <- thicken_data(dataset) # if datetime interval is lower than <1hour
       dataset <- padr::pad(dataset)
       dataset <- fill_gap(dataset, maxgap, no_NA)
