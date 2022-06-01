@@ -17,6 +17,11 @@
 
 erfinv <- function(x) qnorm((x + 1)/2) / sqrt(2)
 
+log10_bounds <- function(x, method) {
+  if (method == "ceiling") return(10 ^ (ceiling(log10(x))))
+  if (method == "floor") return(10 ^ (floor(log10(x))))
+}
+
 fdc_mangin <- function(discharge) {
   discharge_ordered <- sort(discharge)
   non.NA <- sum(!is.na(discharge_ordered)) 
@@ -49,6 +54,11 @@ fdc_normal <- function(discharge) {
 }
 
 plot_fdc <- function(fdc_df, method, xlog = FALSE) {
+  
+  # Define breaks when using logarithmic scale
+  breaks <- 10^(-10:10)
+  minor_breaks <- rep(1:9, 21) * (10 ^ rep(-10:10, each = 9))
+  
   if (method == "mangin") {  
     yticks <- c(0.10, 0.30, 0.50, 0.70, 0.80, 0.90, 0.95, 0.98, 0.99, 0.995, 0.998, 0.9999)
     ylabel <- as.character(yticks)
@@ -60,6 +70,10 @@ plot_fdc <- function(fdc_df, method, xlog = FALSE) {
       geom_line(size = 0.8) +
       scale_x_continuous(trans = logscale) +
       scale_y_continuous(breaks = yticks, labels = ylabel) +
+      scale_x_log10(minor_breaks = minor_breaks,
+                    limits = c(log10_bounds(min(fdc_df$discharge_ordered_unique), "floor"), 
+                               log10_bounds(max(fdc_df$discharge_ordered_unique), "ceiling"))) +
+      annotation_logticks(sides = "b") +
       theme_bw() +
       ggtitle("Mangin Method") +
       xlab(expression("Discharge" ~(m^3~.s^-1))) +
