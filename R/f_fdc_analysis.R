@@ -34,7 +34,8 @@ fdc_mangin <- function(discharge) {
   quant <- quant[index_unique]
   
   y_class <- sqrt(2) * erfinv(quant)
-  discharge_duration_curve_df <- data.frame(discharge_ordered_unique, y_class) %>% 
+  discharge_duration_curve_df <- data.frame(discharge = discharge_ordered_unique, 
+                                            prob_exceedance = y_class) %>% 
     dplyr::slice(1:(dplyr::n() - 1))
 }
 
@@ -49,8 +50,9 @@ fdc_normal <- function(discharge) {
   discharge_ordered_unique <- discharge_ordered[index_unique]
   quant <- quant[index_unique]
   
-  discharge_duration_curve_df <- data.frame(quant, discharge_ordered_unique) %>% 
-    dplyr::mutate(quant = 1 - quant)
+  discharge_duration_curve_df <- data.frame(prob_exceedance = quant, 
+                                            discharge = discharge_ordered_unique) %>% 
+    dplyr::mutate(prob_exceedance = 1 - prob_exceedance)
 }
 
 plot_fdc <- function(fdc_df, method, xlog = FALSE) {
@@ -63,7 +65,7 @@ plot_fdc <- function(fdc_df, method, xlog = FALSE) {
     ylabel <- as.character(yticks)
     yticks <- sqrt(2) * erfinv(yticks)
     
-    ggplot(fdc_df, aes(x = discharge_ordered_unique, y = y_class)) + 
+    ggplot(fdc_df, aes(x = discharge, y = prob_exceedance)) + 
       geom_line(size = 0.8) +
       scale_y_continuous(breaks = yticks, labels = ylabel) +
       {
@@ -71,8 +73,8 @@ plot_fdc <- function(fdc_df, method, xlog = FALSE) {
           # List two combine two ggplot2 elements
           list(scale_x_log10(minor_breaks = minor_breaks, 
                              limits = c(
-                               log10_bounds(min(fdc_df$discharge_ordered_unique), "floor"), 
-                               log10_bounds(max(fdc_df$discharge_ordered_unique), "ceiling"))),
+                               log10_bounds(min(fdc_df$discharge), "floor"), 
+                               log10_bounds(max(fdc_df$discharge), "ceiling"))),
                annotation_logticks(sides = "b"))
         }
       } +
@@ -85,7 +87,7 @@ plot_fdc <- function(fdc_df, method, xlog = FALSE) {
             axis.text = element_text(size = 14, color = "#2d2d2d"))
     
   } else if (method == "normal") {
-    ggplot(fdc_df, aes(x = quant, y = discharge_ordered_unique)) + 
+    ggplot(fdc_df, aes(x = prob_exceedance, y = discharge)) + 
       geom_line(size = 0.8) +
       theme_bw() +
       ggtitle("Classic Method") +
