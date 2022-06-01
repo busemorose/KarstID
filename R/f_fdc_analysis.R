@@ -63,16 +63,19 @@ plot_fdc <- function(fdc_df, method, xlog = FALSE) {
     ylabel <- as.character(yticks)
     yticks <- sqrt(2) * erfinv(yticks)
     
-    if (xlog == TRUE) logscale <- "log10" else logscale <- "identity"
-    
     ggplot(fdc_df, aes(x = discharge_ordered_unique, y = y_class)) + 
       geom_line(size = 0.8) +
-      scale_x_continuous(trans = logscale) +
       scale_y_continuous(breaks = yticks, labels = ylabel) +
-      scale_x_log10(minor_breaks = minor_breaks,
-                    limits = c(log10_bounds(min(fdc_df$discharge_ordered_unique), "floor"), 
-                               log10_bounds(max(fdc_df$discharge_ordered_unique), "ceiling"))) +
-      annotation_logticks(sides = "b") +
+      {
+        if (xlog == TRUE) {
+          # List two combine two ggplot2 elements
+          list(scale_x_log10(minor_breaks = minor_breaks, 
+                             limits = c(
+                               log10_bounds(min(fdc_df$discharge_ordered_unique), "floor"), 
+                               log10_bounds(max(fdc_df$discharge_ordered_unique), "ceiling"))),
+               annotation_logticks(sides = "b"))
+        }
+      } +
       theme_bw() +
       ggtitle("Mangin Method") +
       xlab(expression("Discharge" ~(m^3~.s^-1))) +
