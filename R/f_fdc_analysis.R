@@ -56,7 +56,6 @@ fdc_normal <- function(discharge) {
 plot_fdc <- function(fdc_df, method, xlog = FALSE) {
   
   # Define breaks when using logarithmic scale
-  breaks <- 10^(-10:10)
   minor_breaks <- rep(1:9, 21) * (10 ^ rep(-10:10, each = 9))
   
   if (method == "mangin") {  
