@@ -152,6 +152,8 @@ about_popup <- function() {
                     "Guillaume Cinkus, Naomi Mazzilli & Herv\u00E9 Jourde",
                     "<h3>Contact</h3>",
                     "guillaume.cinkus@umontpellier.fr",
+                    "<h3>Project</h3>",
+                    "KarstID is developed in the frame of the <a href='https://sokarst.org/'> SNO Karst</a> and <a href='http://karma-project.org/'>KARMA</a> projects",
                     "<h3>References</h3>",
                     includeHTML(system.file("extdata/references.html", package = "KarstID")),
                     "<h3>License</h3>",
