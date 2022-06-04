@@ -19,6 +19,12 @@
 
 Guillaume Cinkus, Naomi Mazzilli and Hervé Jourde
 
+Download the User Guide:
+
+1.  Go to <https://hal.archives-ouvertes.fr/hal-03688332/>
+2.  Right-click on the User Guide HTML file in `Annex`
+3.  Click on `Save Link As...`
+
 <!-- badges: start -->
 <!-- badges: end -->
 
