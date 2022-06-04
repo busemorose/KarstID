@@ -64,6 +64,7 @@ acspf <- function(discharge, max_lag = 125, timestep = 1) {
 plot_acf <- function(k, rk) {
   x <- data.frame(k = k, rk = rk)
   ggplot(x, aes(k, rk)) +
+    geom_hline(yintercept = 0.2, linetype = "dashed", color = "#2d2d2d", alpha = 0.5) +
     geom_line(size = 0.8) +
     theme_bw() +
     ggtitle("Autocorrelation Function") +
