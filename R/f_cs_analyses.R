@@ -83,6 +83,7 @@ plot_spf <- function(f, sf) {
     ggtitle("Variance Density Spectrum") +
     xlab(expression("f" ~(days^-1))) +
     ylab(expression(s[f])) +
+    coord_cartesian(xlim = c(0, 0.5)) +
     theme(title = element_text(size = 16, color = "#2d2d2d"),
           axis.title = element_text(size = 16, color = "#2d2d2d"),
           axis.text = element_text(size = 14, color = "#2d2d2d"))
