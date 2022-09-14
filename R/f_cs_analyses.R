@@ -39,8 +39,8 @@ acspf <- function(discharge, max_lag = 125, timestep = 1) {
   }
   
   # slice to max f value = 0.5 for plotting
-  f <- (f * timestep)[1:125]
-  sf <- (sf / timestep)[1:125]
+  f <- (f * timestep)[1:max_lag]
+  sf <- (sf / timestep)[1:max_lag]
   
   # calculation of memory effect
   index_l0.2 <- min(which(acf$acf < 0.2))
