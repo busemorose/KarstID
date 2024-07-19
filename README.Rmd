@@ -51,8 +51,8 @@ KarstID requires an installation of R.  **It is recommended to use at least R `4
 Once R is installed, KarstID can be installed from [GitHub](https://github.com/busemorose/KarstID).
 
 ``` r
-if (!require("devtools")) install.packages("devtools") # install devtools package if needed
-devtools::install_github("busemorose/KarstID") # install KarstID package
+if (!require("remotes")) install.packages("remotes") # install remotes package if needed
+remotes::install_github("busemorose/KarstID") # install KarstID package
 ```
 
 ## Launch
