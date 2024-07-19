@@ -18,12 +18,12 @@
 # timestep is either 1 for daily timestep or 24 for hourly timestep
 acspf <- function(discharge, max_lag = 125, timestep = 1) {
   acspf <- list("k" = as.numeric(),
-               "rk" = as.numeric(),
-               "f" = as.numeric(),
-               "sf" = as.numeric(),
-               "mem_ef" = as.numeric(),
-               "reg_time" = as.numeric())
-
+                "rk" = as.numeric(),
+                "f" = as.numeric(),
+                "sf" = as.numeric(),
+                "mem_ef" = as.numeric(),
+                "reg_time" = as.numeric())
+  
   max_lag <- max_lag * timestep
   
   n <- length(discharge)
@@ -75,15 +75,35 @@ plot_acf <- function(k, rk) {
           axis.text = element_text(size = 14, color = "#2d2d2d"))
 }
 
-plot_spf <- function(f, sf) {
+plot_spf <- function(f, sf, log = FALSE) {
   x <- data.frame(f = f, sf = sf)
+  
+  # Define breaks when using logarithmic scale
+  minor_breaks <- rep(1:9, 21) * (10 ^ rep(-10:10, each = 9))
+  
   ggplot(x, aes(f, sf)) +
     geom_line(size = 0.8) +
+    {
+      if (log) {
+        # List two combine two ggplot2 elements
+        list(scale_x_log10(minor_breaks = minor_breaks, 
+                           limits = c(
+                             log10_bounds(min(x$f), "floor"), 
+                             log10_bounds(max(x$f), "ceiling"))),
+             scale_y_log10(minor_breaks = minor_breaks, 
+                           limits = c(
+                             log10_bounds(min(x$sf), "floor"), 
+                             log10_bounds(max(x$sf), "ceiling"))),
+             annotation_logticks(sides = "b"))
+      }
+    } +
     theme_bw() +
     ggtitle("Variance Density Spectrum") +
     xlab(expression(paste("f [T"^-1, "]"))) +
     ylab(expression(s[f])) +
-    coord_cartesian(xlim = c(0, 0.5)) +
+    {
+      if (!log) coord_cartesian(xlim = c(0, 0.5)) 
+    } +
     theme(title = element_text(size = 16, color = "#2d2d2d"),
           axis.title = element_text(size = 16, color = "#2d2d2d"),
           axis.text = element_text(size = 14, color = "#2d2d2d"))

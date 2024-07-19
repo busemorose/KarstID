@@ -174,6 +174,7 @@ ui <- fluidPage(
         column(3,
                offset = 1,
                br(), br(), 
+               shinyjs::hidden(checkboxInput("spf_log", "Logarithmic scale")),
                shinyjs::hidden(downloadButton("dl_acspf", "Download results")))
       )
     ),
@@ -291,6 +292,7 @@ server <- function(input, output, session) {
       shinyjs::show("dl_acspf")
       shinyjs::show("dl_fdc_normal")
       shinyjs::show("dl_fdc_mangin")
+      shinyjs::show("spf_log")
       shinyjs::show("fdc_mangin_log")
     } else {
       shinyjs::hide("dl_stats")
@@ -300,6 +302,7 @@ server <- function(input, output, session) {
       shinyjs::hide("dl_acspf")
       shinyjs::hide("dl_fdc_normal")
       shinyjs::hide("dl_fdc_mangin")
+      shinyjs::hide("spf_log")
       shinyjs::hide("fdc_mangin_log")
     }
   })
@@ -871,7 +874,7 @@ server <- function(input, output, session) {
   })
   
   output$spf_plot <- renderPlot({
-    plot_spf(ascp_results()$f, ascp_results()$sf)
+    plot_spf(ascp_results()$f, ascp_results()$sf, log = input$spf_log)
   }) 
   
   output$display_acspf <- renderText({
