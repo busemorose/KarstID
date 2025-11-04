@@ -25,6 +25,18 @@ Download the User Guide:
 2.  Right-click on the User Guide HTML file in `Annex`
 3.  Click on `Save Link As...`
 
+## How to Cite
+
+If you use **KarstID** in your research or publications, please cite the following article:
+
+> Cinkus, G., Mazzilli, N., and Jourde, H.: Identification of relevant indicators for the assessment of karst systems hydrological functioning: Proposal of a new classification, J. Hydrol., 603, 127006, https://doi.org/10.1016/j.jhydrol.2021.127006, 2021.
+> [https://doi.org/10.1016/j.jhydrol.2021.127006](https://doi.org/10.1016/j.jhydrol.2021.127006)
+
+In addition, please reference the **KarstID** software as follows:
+
+> Cinkus, G., Mazzilli, N., and Jourde, H.: KarstID: an R Shiny application for the analysis of karst spring discharge time series and the classification of karst system hydrological functioning, Environ Earth Sci, 82, 6, https://doi.org/10.1007/s12665-023-10830-5, 2023.
+> [https://doi.org/10.1007/s12665-023-10830-5](https://doi.org/10.1007/s12665-023-10830-5)
+
 <!-- badges: start -->
 <!-- badges: end -->
 
