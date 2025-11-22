@@ -147,6 +147,7 @@ ui <- fluidPage(
         column(4,
                plotOutput("rc_model_plot", click = "rc_model_bp"),
                uiOutput("ui_napeak"),
+               shinyjs::hidden(checkboxInput("rc_log", "Logarithmic scale")),
                shinyjs::hidden(uiOutput("ui_bp_value")),
                shinyjs::hidden(actionButton("save_param", "Save indicators")),
                shinyjs::hidden(actionButton("clear_param", "Clear selection")),
@@ -320,10 +321,12 @@ server <- function(input, output, session) {
                ignoreNULL = FALSE, {
                  if (!is.null(input$dt_recap_rows_selected)) {
                    shinyjs::show("ui_bp_value")
+                   shinyjs::show("rc_log")
                    shinyjs::show("save_param")
                    shinyjs::show("clear_param")
                  } else {
                    shinyjs::hide("ui_bp_value")
+                   shinyjs::hide("rc_log")
                    shinyjs::hide("save_param")
                    shinyjs::hide("clear_param")
                  }
@@ -778,7 +781,7 @@ server <- function(input, output, session) {
   
   output$rc_model_plot <- renderPlot({ 
     req(input$dt_recap_rows_selected, length(input$bp_value) > 0)
-    plot_rc_model(selected_recession(), mangin_model()[["recession"]], input$bp_value)
+    plot_rc_model(selected_recession(), mangin_model()[["recession"]], input$bp_value, log = input$rc_log)
   })
   
   output$model_perf <- renderText({

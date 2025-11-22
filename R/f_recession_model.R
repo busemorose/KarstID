@@ -77,7 +77,16 @@ model_mangin <- function(recession_dataset, breakpoint, vtransit, timestep = 1) 
   return(mangin)
 }
 
-plot_rc_model <- function(recession, rc_model, breakpoint) {
+plot_rc_model <- function(recession, rc_model, breakpoint, log = FALSE) {
+  
+  # Define breaks when using logarithmic scale
+  minor_breaks <- rep(1:9, 21) * (10 ^ rep(-10:10, each = 9))
+  
+  # Define min Q value for log plot
+  if (log) {
+    tmp_min_value <- min(recession$value, na.rm = TRUE)
+    if (tmp_min_value == 0) tmp_min_value <- sort(unique(recession$value))[2]
+  }
   
   if (breakpoint < 2 | !is.numeric(breakpoint) | breakpoint >= max_bp_value(recession$value)) {
     ggplot(recession, aes(t, value, color = variable)) +
@@ -89,6 +98,19 @@ plot_rc_model <- function(recession, rc_model, breakpoint) {
                          values = c("discharge" = "black",
                                     "sim_discharge" = "orangered3"),
                          label = c("Observed discharge", "Simulated discharge")) +
+      {
+        if (log) {
+          list(scale_x_log10(minor_breaks = minor_breaks, 
+                             limits = c(
+                               log10_bounds(1, "floor"), 
+                               log10_bounds(max(recession$t), "ceiling"))),
+               scale_y_log10(minor_breaks = minor_breaks, 
+                             limits = c(
+                               log10_bounds(tmp_min_value, "floor"), 
+                               log10_bounds(max(recession$value), "ceiling"))),
+               annotation_logticks(sides = "b"))
+        }
+      } +
       theme(axis.title = element_text(size = 16, color = "#2d2d2d"),
             axis.text = element_text(size = 14, color = "#2d2d2d"),
             legend.text = element_text(size = 14),
@@ -106,6 +128,19 @@ plot_rc_model <- function(recession, rc_model, breakpoint) {
                          values = c("discharge" = "black",
                                     "sim_discharge" = "orangered3"),
                          label = c("Observed discharge", "Simulated discharge")) +
+      {
+        if (log) {
+          list(scale_x_log10(minor_breaks = minor_breaks, 
+                             limits = c(
+                               log10_bounds(1, "floor"), 
+                               log10_bounds(max(recession$t), "ceiling"))),
+               scale_y_log10(minor_breaks = minor_breaks, 
+                             limits = c(
+                               log10_bounds(max(min(recession$value), 10^-8), "floor"), 
+                               log10_bounds(max(recession$value), "ceiling"))),
+               annotation_logticks(sides = "b"))
+        }
+      } +
       theme(axis.title = element_text(size = 16, color = "#2d2d2d"),
             axis.text = element_text(size = 14, color = "#2d2d2d"),
             legend.text = element_text(size = 14),
