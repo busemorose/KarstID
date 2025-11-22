@@ -491,7 +491,10 @@ server <- function(input, output, session) {
   })
   
   rc_brush <- reactive({
-    brushedPoints(df_filtered(), input$rc_brush)
+    tmp <- brushedPoints(df_filtered(), input$rc_brush)
+    min_date <- min(tmp$date)
+    max_date <- max(tmp$date)
+    dplyr::filter(df_filtered(), dplyr::between(date, min_date, max_date))
   })
   
   rc_length <- reactive({
