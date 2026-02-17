@@ -571,7 +571,7 @@ server <- function(input, output, session) {
   })
   
   output$dl_rc <- downloadHandler(
-    filename = paste0(input$name, "_recession_list_export.txt"),
+    filename = paste0(Sys.Date(), "_", input$name, "_recession_list_export.txt"),
     content = function(filename) {
       # the lapply function add a "num" column to differentiate each recession
       rc_list <- rbindlist(lapply(seq_along(df_rc$list), 
@@ -583,14 +583,14 @@ server <- function(input, output, session) {
   )
   
   output$dl_rt <- downloadHandler(
-    filename = paste0(input$name, "_recession_table_export.txt"),
+    filename = paste0(Sys.Date(), "_", input$name, "_recession_table_export.txt"),
     content = function(filename) {
       write.table(df_rc$recap, filename, sep = "\t", row.names = FALSE)
     }
   )
   
   output$dl_hydrofile <- downloadHandler(
-    filename = paste0(input$name, "_KarstID_export.rds"),
+    filename = paste0(Sys.Date(), "_", input$name, "_KarstID_export.rds"),
     content = function(filename) {
       rc_export <- list(df_rc$list, df_rc$recap, napeak$list, df_rc$save)
       saveRDS(rc_export, filename)
