@@ -509,7 +509,8 @@ server <- function(input, output, session) {
                                              "breakpoint" = integer(),
                                              "k" = double(),
                                              "i" = double(),
-                                             "alpha" = double()),
+                                             "alpha" = double(),
+                                             "rmse" = double()),
                           count = 0)
   
   observeEvent(input$zoom_rc, {
@@ -542,7 +543,8 @@ server <- function(input, output, session) {
                                                 NA, # bp
                                                 NA, # k
                                                 NA, # i 
-                                                NA) # alpha
+                                                NA, # alpha
+                                                NA_real_) # rmse
     session$resetBrush("rc_brush")
     DT::replaceData(dt_recap_proxy,
                     df_rc$recap,
@@ -735,6 +737,7 @@ server <- function(input, output, session) {
     df_rc$recap[input$dt_recap_rows_selected, "k"] <- mangin_model()$k
     df_rc$recap[input$dt_recap_rows_selected, "i"] <- mangin_model()$i
     df_rc$recap[input$dt_recap_rows_selected, "alpha"] <- mangin_model()$alpha
+    df_rc$recap[input$dt_recap_rows_selected, "rmse"] <- mangin_model()$rmse
     DT::replaceData(
       dt_recap_proxy,
       df_rc$recap,
@@ -753,6 +756,7 @@ server <- function(input, output, session) {
       df_rc$recap[input$dt_recap_rows_selected, "k"] <- NA
       df_rc$recap[input$dt_recap_rows_selected, "i"] <- NA
       df_rc$recap[input$dt_recap_rows_selected, "alpha"] <- NA
+      df_rc$recap[input$dt_recap_rows_selected, "rmse"] <- NA_real_
       updateNumericInput(session, "bp_value", value = "")
       DT::replaceData(
         dt_recap_proxy,
@@ -789,9 +793,7 @@ server <- function(input, output, session) {
   
   output$model_perf <- renderText({
     req(input$dt_recap_rows_selected, input$bp_value)
-    results <- mangin_model()$recession
-    rmse <- rmse(results$discharge, results$sim_discharge)
-    paste0("RMSE = ", round(rmse, 4), " m3/s")
+    paste0("RMSE = ", round(mangin_model()$rmse, 4), " m3/s")
   })
   
   # Simple correlational and spectral analyses -------------------------------------
