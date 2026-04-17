@@ -74,6 +74,8 @@ model_mangin <- function(recession_dataset, breakpoint, vtransit, timestep = 1) 
   mangin$i <- i
   mangin$alpha <- alpha * timestep
   mangin$rmse <- rmse(recession_dataset$discharge, recession_dataset$sim_discharge)
+  mangin$q0 <- q0
+  mangin$qr0 <- qr0
   
   return(mangin)
 }

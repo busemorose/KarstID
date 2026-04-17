@@ -510,7 +510,9 @@ server <- function(input, output, session) {
                                              "k" = double(),
                                              "i" = double(),
                                              "alpha" = double(),
-                                             "rmse" = double()),
+                                             "rmse" = double(),
+                                             "q0" = double(),
+                                             "qr0" = double()),
                           count = 0)
   
   observeEvent(input$zoom_rc, {
@@ -544,7 +546,9 @@ server <- function(input, output, session) {
                                                 NA, # k
                                                 NA, # i 
                                                 NA, # alpha
-                                                NA_real_) # rmse
+                                                NA_real_, # rmse
+                                                NA_real_, # q0
+                                                NA_real_) # qr0
     session$resetBrush("rc_brush")
     DT::replaceData(dt_recap_proxy,
                     df_rc$recap,
@@ -738,6 +742,8 @@ server <- function(input, output, session) {
     df_rc$recap[input$dt_recap_rows_selected, "i"] <- mangin_model()$i
     df_rc$recap[input$dt_recap_rows_selected, "alpha"] <- mangin_model()$alpha
     df_rc$recap[input$dt_recap_rows_selected, "rmse"] <- mangin_model()$rmse
+    df_rc$recap[input$dt_recap_rows_selected, "q0"] <- mangin_model()$q0
+    df_rc$recap[input$dt_recap_rows_selected, "qr0"] <- mangin_model()$qr0
     DT::replaceData(
       dt_recap_proxy,
       df_rc$recap,
@@ -757,6 +763,8 @@ server <- function(input, output, session) {
       df_rc$recap[input$dt_recap_rows_selected, "i"] <- NA
       df_rc$recap[input$dt_recap_rows_selected, "alpha"] <- NA
       df_rc$recap[input$dt_recap_rows_selected, "rmse"] <- NA_real_
+      df_rc$recap[input$dt_recap_rows_selected, "q0"] <- NA_real_
+      df_rc$recap[input$dt_recap_rows_selected, "qr0"] <- NA_real_
       updateNumericInput(session, "bp_value", value = "")
       DT::replaceData(
         dt_recap_proxy,
