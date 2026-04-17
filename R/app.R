@@ -738,12 +738,12 @@ server <- function(input, output, session) {
     
     req(is_possible, cancelOutput = TRUE) 
     df_rc$recap[input$dt_recap_rows_selected, "breakpoint"] <- input$bp_value
-    df_rc$recap[input$dt_recap_rows_selected, "k"] <- mangin_model()$k
-    df_rc$recap[input$dt_recap_rows_selected, "i"] <- mangin_model()$i
-    df_rc$recap[input$dt_recap_rows_selected, "alpha"] <- mangin_model()$alpha
-    df_rc$recap[input$dt_recap_rows_selected, "rmse"] <- mangin_model()$rmse
-    df_rc$recap[input$dt_recap_rows_selected, "q0"] <- mangin_model()$q0
-    df_rc$recap[input$dt_recap_rows_selected, "qr0"] <- mangin_model()$qr0
+    df_rc$recap[input$dt_recap_rows_selected, "k"] <- round(mangin_model()$k, 5)
+    df_rc$recap[input$dt_recap_rows_selected, "i"] <- round(mangin_model()$i, 5)
+    df_rc$recap[input$dt_recap_rows_selected, "alpha"] <- round(mangin_model()$alpha, 5)
+    df_rc$recap[input$dt_recap_rows_selected, "rmse"] <- round(mangin_model()$rmse, 5)
+    df_rc$recap[input$dt_recap_rows_selected, "q0"] <- round(mangin_model()$q0, 5)
+    df_rc$recap[input$dt_recap_rows_selected, "qr0"] <- round(mangin_model()$qr0, 5)
     DT::replaceData(
       dt_recap_proxy,
       df_rc$recap,
