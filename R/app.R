@@ -501,19 +501,40 @@ server <- function(input, output, session) {
     nrow(rc_brush())
   })
   
-  df_rc <- reactiveValues(list = list(),
-                          save = list(), # duplicate rc for NA peak values
-                          recap = data.frame("num" = integer(),
-                                             "start" = as.Date(character()),
-                                             "end" = as.Date(character()),
-                                             "breakpoint" = integer(),
-                                             "k" = double(),
-                                             "i" = double(),
-                                             "alpha" = double(),
-                                             "rmse" = double(),
-                                             "q0" = double(),
-                                             "qr0" = double()),
-                          count = 0)
+  df_rc <- reactiveValues(
+    list   = list(),
+    save   = list(),
+    recap  = data.frame(
+      "num"        = integer(),
+      "start"      = as.Date(character()), 
+      "end"        = as.Date(character()),
+      "breakpoint" = integer(),
+      "k"          = double(),
+      "i"          = double(),
+      "alpha"      = double(),
+      "rmse"       = double(),
+      "q0"         = double(),
+      "qr0"        = double()
+    ),
+    count = 0
+  )
+  
+  observe({
+    date_col <- if (data_mean_num() == 1) as.Date(character()) else as.POSIXct(character())
+    
+    df_rc$recap <- data.frame(
+      "num"        = integer(),
+      "start"      = date_col,
+      "end"        = date_col,
+      "breakpoint" = integer(),
+      "k"          = double(),
+      "i"          = double(),
+      "alpha"      = double(),
+      "rmse"       = double(),
+      "q0"         = double(),
+      "qr0"        = double()
+    )
+  })
   
   observeEvent(input$zoom_rc, {
     update_slider(session, "rc_slider", rc_brush())
